@@ -151,11 +151,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                4
+                2
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                2
+                1
                 <span>标签</span>
             </div>
         </div>
@@ -192,7 +192,7 @@
 
             
             <section id="main">
-    <article id="post-test" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-post" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -200,7 +200,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2017/06/19/test/">test</a>
+            <a class="article-title" href="/2017/06/20/post/">&lt;span style=&quot;font-size:20px;&quot;&gt;&lt;b&gt;Mysql 优化(I)&lt;/b&gt;&lt;/span&gt; &amp;nbsp;&amp;nbsp;&lt;span style=&quot;color:green;font-size:16px;&quot;&gt;数据表设计规范&lt;/span&gt;</a>
         </h1>
     
 
@@ -209,14 +209,24 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/06/19/test/">
-            <time datetime="2017-06-19T15:26:52.000Z" itemprop="datePublished">2017-06-19</time>
+        <a href="/2017/06/20/post/">
+            <time datetime="2017-06-20T13:32:09.000Z" itemprop="datePublished">2017-06-20</time>
         </a>
     </div>
 
 
                         
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/mysql/">mysql</a>
+    </div>
+
                         
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tagcloud/mysql优化-mysql设计/">mysql优化 mysql设计</a>
+    </div>
+
                     </div>
                 
             </header>
@@ -225,7 +235,28 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>test it</p>
+            <p>####三范式<br>&nbsp;&nbsp;&nbsp;&nbsp;俗话说，好的表结构是一个项目成功的一般，而在项目中我们一般按照三范式的规范来设计我们的表格。<br>三范式的具体要求如下：</p>
+<ol>
+<li>原子性（不可再分的字段）</li>
+<li>非主键字段必须依赖主键</li>
+<li>消除非主键之间的传递依赖</li>
+</ol>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;当然，三范式在网上存在许多不同的版本，但不论是哪个版本的三范式，其中心思想都是一样的，那就是设计出比较合理的数据表，尽可能的<strong>减少代码的冗余</strong>。</p>
+<blockquote>
+<p>但需要注意的是，代码的冗余只能<strong>减少</strong>，而不是消灭</p>
+</blockquote>
+<p>具体设计思路如下：</p>
+<pre><code>id name order order_name address weather price (非设计规范表)
+(拆分address字段保证设计表的原子性)
+-&gt; id name order order_name country province city weather price
+(将非主键依赖的weather的字段拆分出去)
+-&gt; id name order order_name country province city price
+(消除order和order_name之间的传递依赖，将非主键之间的传递依赖消除)
+-&gt; id name order country province city price
+</code></pre><p>###逆范式<br>&nbsp;&nbsp;&nbsp;&nbsp;实际项目中，并不是完全按三范式的规范来设计表的结构，具体的项目中，逆范式的设计有时候可以简化sql的语句，提高sql语句的执行效率，此时逆范式的设计明显更有利于我们的项目，这个情况下使用逆范式的设计将更为科学。</p>
+<p>例如，我们现在有两张表，一张分类表（category），一张商品表（goods），这里我们项目需要查询分类id、分类名称、商品数量三个字段，具体的sql语句如下：</p>
+<pre><code>select c.*,count(g.goods_id) goods_num from category as c left join goods as g on c.cat_id = g.cat_id group by c.cat_id;
+</code></pre><p>可以看到，这个使用jion连表查询的sql语句相对于简单的表结构并不简单，而如果我们给分类表加上一个对应的商品数量字段，这样的sql语句将大大简化，这个时候我们大可不必严守三范式的设计思路，不妨使用逆范式的方式来设计这张表。</p>
 
         
         </div>
@@ -236,7 +267,7 @@
 
 </div>
 
-    <a data-url="http://zeco.oschina.io/2017/06/19/test/" data-id="cj44cbxvb0004mcrfi9ekqsl5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://zeco.oschina.io/2017/06/20/post/" data-id="cj45m5ue400009wrf0xx6x68t" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -358,7 +389,7 @@
 
 </div>
 
-    <a data-url="http://zeco.oschina.io/2017/06/11/hello-world/" data-id="cj44cbxuv0000mcrfunbmjnqj" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://zeco.oschina.io/2017/06/11/hello-world/" data-id="cj45m5ue400029wrft65hghzo" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -433,10 +464,6 @@
 </article>
 
 
-
-    <nav id="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
 </section>
             
                 
@@ -451,7 +478,7 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/06/19/test/" class="thumbnail">
+                            <a href="/2017/06/20/post/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -461,9 +488,9 @@
                         </div>
                         
                         <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/06/19/test/" class="title">test</a></p>
-                            <p class="item-date"><time datetime="2017-06-19T15:26:52.000Z" itemprop="datePublished">2017-06-19</time></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
+                            <p class="item-title"><a href="/2017/06/20/post/" class="title">&lt;span style=&quot;font-size:20px;&quot;&gt;&lt;b&gt;Mysql 优化(I)&lt;/b&gt;&lt;/span&gt; &amp;nbsp;&amp;nbsp;&lt;span style=&quot;color:green;font-size:16px;&quot;&gt;数据表设计规范&lt;/span&gt;</a></p>
+                            <p class="item-date"><time datetime="2017-06-20T13:32:09.000Z" itemprop="datePublished">2017-06-20</time></p>
                         </div>
                     </li>
                 
@@ -486,25 +513,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="http://daringfireball.net" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="http://daringfireball.net" class="title">Just Some Text Today</a></p>
-                            <p class="item-date"><time datetime="2014-07-10T05:34:00.000Z" itemprop="datePublished">2014-07-10</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -514,7 +522,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a><span class="category-list-count">1</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -523,7 +531,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li></ul>
         </div>
     </div>
 
@@ -535,7 +543,7 @@
         <h3 class="widget-title">Tag Cloud</h3>
         <div id="myCanvasContainer" class="widget tagcloud">
             <canvas width="250" height="250" id="resCanvas" style="width=100%">
-                <a href="/tagcloud/journal/" style="font-size: 10px;">journal</a> <a href="/tagcloud/啊/" style="font-size: 10px;">啊</a>
+                <a href="/tagcloud/mysql优化-mysql设计/" style="font-size: 10px;">mysql优化 mysql设计</a>
             </canvas>
         </div>
     </div>

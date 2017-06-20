@@ -3,11 +3,44 @@
   
     
     <entry>
-      <title><![CDATA[test]]></title>
-      <url>/2017/06/19/test/</url>
-      <content type="html"><![CDATA[<p>test it</p>
+      <title><![CDATA[<span style="font-size:20px;"><b>Mysql 优化(I)</b></span> &nbsp;&nbsp;<span style="color:green;font-size:16px;">数据表设计规范</span>]]></title>
+      <url>/2017/06/20/post/</url>
+      <content type="html"><![CDATA[<p>####三范式<br>&nbsp;&nbsp;&nbsp;&nbsp;俗话说，好的表结构是一个项目成功的一般，而在项目中我们一般按照三范式的规范来设计我们的表格。<br>三范式的具体要求如下：</p>
+<ol>
+<li>原子性（不可再分的字段）</li>
+<li>非主键字段必须依赖主键</li>
+<li>消除非主键之间的传递依赖</li>
+</ol>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;当然，三范式在网上存在许多不同的版本，但不论是哪个版本的三范式，其中心思想都是一样的，那就是设计出比较合理的数据表，尽可能的<strong>减少代码的冗余</strong>。</p>
+<blockquote>
+<p>但需要注意的是，代码的冗余只能<strong>减少</strong>，而不是消灭</p>
+</blockquote>
+<p>具体设计思路如下：</p>
+<pre><code>id name order order_name address weather price (非设计规范表)
+(拆分address字段保证设计表的原子性)
+-&gt; id name order order_name country province city weather price
+(将非主键依赖的weather的字段拆分出去)
+-&gt; id name order order_name country province city price
+(消除order和order_name之间的传递依赖，将非主键之间的传递依赖消除)
+-&gt; id name order country province city price
+</code></pre><p>###逆范式<br>&nbsp;&nbsp;&nbsp;&nbsp;实际项目中，并不是完全按三范式的规范来设计表的结构，具体的项目中，逆范式的设计有时候可以简化sql的语句，提高sql语句的执行效率，此时逆范式的设计明显更有利于我们的项目，这个情况下使用逆范式的设计将更为科学。</p>
+<p>例如，我们现在有两张表，一张分类表（category），一张商品表（goods），这里我们项目需要查询分类id、分类名称、商品数量三个字段，具体的sql语句如下：</p>
+<pre><code>select c.*,count(g.goods_id) goods_num from category as c left join goods as g on c.cat_id = g.cat_id group by c.cat_id;
+</code></pre><p>可以看到，这个使用jion连表查询的sql语句相对于简单的表结构并不简单，而如果我们给分类表加上一个对应的商品数量字段，这样的sql语句将大大简化，这个时候我们大可不必严守三范式的设计思路，不妨使用逆范式的方式来设计这张表。</p>
 ]]></content>
       
+        <categories>
+            
+            <category> mysql </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> mysql优化 mysql设计 </tag>
+            
+        </tags>
         
     </entry>
     
@@ -26,47 +59,6 @@
 <p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
 ]]></content>
       
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Just Some Text Today]]></title>
-      <url>/2014/07/10/item%20(2)/</url>
-      <content type="html"><![CDATA[<p>The blog skeleton also supports <strong>Daring Fireball</strong> style link posts.  Simply add a link setting in your page header:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">link: http://daringfireball.net</div></pre></td></tr></table></figure>
-<p>And your blog title becomes a link directly to that link you specified. Easy peasy!</p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> journal </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Classic Modern Architecture]]></title>
-      <url>/2014/06/27/item/</url>
-      <content type="html"><![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultricies tristique nulla et mattis. Phasellus id massa eget nisl congue blandit sit amet id ligula. Praesent et nulla eu augue tempus sagittis. Mauris faucibus nibh et nibh cursus in vestibulum sapien egestas. Curabitur ut lectus tortor. Sed ipsum eros, egestas ut eleifend non, elementum vitae eros. Mauris felis diam, pellentesque vel lacinia ac, dictum a nunc. Mauris mattis nunc sed mi sagittis et facilisis tortor volutpat. Etiam tincidunt urna mattis erat placerat placerat ac eu tellus.</p>
-<p>===</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultricies tristique nulla et mattis. Phasellus id massa eget nisl congue blandit sit amet id ligula. Praesent et nulla eu augue tempus sagittis. Mauris faucibus nibh et nibh cursus in vestibulum sapien egestas. Curabitur ut lectus tortor. Sed ipsum eros, egestas ut eleifend non, elementum vitae eros. Mauris felis diam, pellentesque vel lacinia ac, dictum a nunc. Mauris mattis nunc sed mi sagittis et facilisis tortor volutpat. Etiam tincidunt urna mattis erat placerat placerat ac eu tellus. Ut nec velit id nisl tincidunt vehicula id a metus. Pellentesque erat neque, faucibus id ultricies vel, mattis in ante. Donec lobortis, mauris id congue scelerisque, diam nisl accumsan orci, condimentum porta est magna vel arcu. Curabitur varius ante dui. Vivamus sit amet ante ac diam ullamcorper sodales sed a odio. Curabitur ut lectus tortor. Sed ipsum eros, egestas ut eleifend non, elementum vitae eros. Mauris felis diam, pellentesque vel lacinia ac, dictum a nunc.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultricies tristique nulla et mattis. Phasellus id massa eget nisl congue blandit sit amet id ligula. Praesent et nulla eu augue tempus sagittis. Mauris faucibus nibh et nibh cursus in vestibulum sapien egestas. Curabitur ut lectus tortor. Sed ipsum eros, egestas ut eleifend non, elementum vitae eros. Mauris felis diam, pellentesque vel lacinia ac, dictum a nunc. Mauris mattis nunc sed mi sagittis et facilisis tortor volutpat. Etiam tincidunt urna mattis erat placerat placerat ac eu tellus. Ut nec velit id nisl tincidunt vehicula id a metus. Pellentesque erat neque, faucibus id ultricies vel, mattis in ante. Donec lobortis, mauris id congue scelerisque, diam nisl accumsan orci, condimentum porta est magna vel arcu. Curabitur varius ante dui. Vivamus sit amet ante ac diam ullamcorper sodales sed a odio.</p>
-]]></content>
-      
-        <categories>
-            
-            <category> blog </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> 啊 </tag>
-            
-        </tags>
         
     </entry>
     
