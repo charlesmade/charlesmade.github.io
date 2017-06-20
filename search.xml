@@ -3,7 +3,7 @@
   
     
     <entry>
-      <title><![CDATA[<span style="font-size:20px;"><b>Mysql 优化(I)</b></span> &nbsp;&nbsp;<span style="color:green;font-size:16px;">数据表设计规范</span>]]></title>
+      <title><![CDATA[Mysql 优化(I) 数据表设计规范]]></title>
       <url>/2017/06/20/post/</url>
       <content type="html"><![CDATA[<p>####三范式<br>&nbsp;&nbsp;&nbsp;&nbsp;俗话说，好的表结构是一个项目成功的一般，而在项目中我们一般按照三范式的规范来设计我们的表格。<br>三范式的具体要求如下：</p>
 <ol>
@@ -11,6 +11,7 @@
 <li>非主键字段必须依赖主键</li>
 <li>消除非主键之间的传递依赖</li>
 </ol>
+<a id="more"></a>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;当然，三范式在网上存在许多不同的版本，但不论是哪个版本的三范式，其中心思想都是一样的，那就是设计出比较合理的数据表，尽可能的<strong>减少代码的冗余</strong>。</p>
 <blockquote>
 <p>但需要注意的是，代码的冗余只能<strong>减少</strong>，而不是消灭</p>
@@ -38,7 +39,7 @@
         
         <tags>
             
-            <tag> mysql优化 mysql设计 </tag>
+            <tag> mysql优化，mysql设计 </tag>
             
         </tags>
         
