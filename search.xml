@@ -3,8 +3,39 @@
   
     
     <entry>
+      <title><![CDATA[Mysql 优化(II) 引擎]]></title>
+      <url>/2017/06/21/mysql_uh2/</url>
+      <content type="html"><![CDATA[<p><img src="/css/images/mysql_1.jpg" alt="Mysql示意图"><br>这里，只简单的讨论两种常见的引擎：<span style="color:green"><strong>MyISAM</strong></span>和<span style="color:red"><strong>InnoDB</strong></span>的区别。</p>
+<h3 id="MyISAM"><a href="#MyISAM" class="headerlink" title="MyISAM"></a>MyISAM</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;在MySQL版本小于等于5.5时，MyISAM是MySQL的默认引擎。他是ISAM的扩展格式和缺省的数据库引擎。除了提供ISAM里所没有的索引和字段管理的大量功能，MYISAM还使用一种<span style="color:red">表格锁定</span>的机制，来优化多个并发的读写操作。MYISAM还有一些有用的扩展，例如MYISAMPACK压缩工具，用于极少修改和新增数据的表格，提升其读取速度。</p>
+<blockquote>
+<p>ISAM:Indexed Sequential Access Method(索引顺序存取方法)。属于文件系统,<br>其特点是所有表的数据文件都是单独存放的, 表中的索引和数据也是单独存放的, 只需扫描单个表即<br>可得到结果，大大提高了查询的效率和速度 </p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;MYISAM的快速读取特性，符合了WEB开发过程中对大量进行的数据读取操作的需要，使其受到了许多WEB开发者的青睐。</p>
+<h3 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;在MySQL版本大于5.5时，InnoDB是MySQL的默认引擎。InnoDB的最大特点是其对ACID事务的支持，外键约束，以及<span style="color:green">行级锁定（row-level locking）</span>的特点，这是的InnoDB在处理巨大数据量（高并发）条件下较MyISAM有着更大的优势。</p>
+<h3 id="MyISAM-与-InnoDB的异同"><a href="#MyISAM-与-InnoDB的异同" class="headerlink" title="MyISAM 与 InnoDB的异同"></a>MyISAM 与 InnoDB的异同</h3><p><img src="/css/images/mysql_2.jpg" alt="两个引擎的区别"></p>
+<blockquote>
+<p>诚然，这里只是简单的对两种常见的Mysql数据库引擎特点进行区分，数据表locking-level不可能只是如此简单的由引擎来决定，还有更加底层的B-TREE以及B+TREE结构，都不是本人现在水平可以涉及的深度，望勤望勉。</p>
+</blockquote>
+]]></content>
+      
+        <categories>
+            
+            <category> mysql </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> mysql引擎 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Mysql 优化(I) 数据表设计规范]]></title>
-      <url>/2017/06/20/post/</url>
+      <url>/2017/06/20/mysql_uh1/</url>
       <content type="html"><![CDATA[<h4 id="三范式"><a href="#三范式" class="headerlink" title="三范式"></a>三范式</h4><p>&nbsp;&nbsp;&nbsp;&nbsp;俗话说，好的表结构是一个项目成功的一般，而在项目中我们一般按照三范式的规范来设计我们的表格。<br>三范式的具体要求如下：</p>
 <ol>
 <li>原子性（不可再分的字段）</li>
@@ -39,7 +70,7 @@
         
         <tags>
             
-            <tag> mysql优化 mysql设计 </tag>
+            <tag> mysql表设计 </tag>
             
         </tags>
         
