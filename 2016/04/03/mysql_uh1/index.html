@@ -3,19 +3,19 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Mysql 优化(I) 数据表设计规范 | Zeco&#39;s blog</title>
+    <title>Mysql (I) 数据表设计规范 | Zeco&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="三范式&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;俗话说，好的表结构是一个项目成功的一般，而在项目中我们一般按照三范式的规范来设计我们的表格。三范式的具体要求如下：  原子性（不可再分的字段） 非主键字段必须依赖主键 消除非主键之间的传递依赖">
-<meta name="keywords" content="mysql表设计">
+<meta name="keywords" content="表设计">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mysql 优化(I) 数据表设计规范">
+<meta property="og:title" content="Mysql (I) 数据表设计规范">
 <meta property="og:url" content="http://zeco.oschina.io/2016/04/03/mysql_uh1/index.html">
 <meta property="og:site_name" content="Zeco&#39;s blog">
 <meta property="og:description" content="三范式&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;俗话说，好的表结构是一个项目成功的一般，而在项目中我们一般按照三范式的规范来设计我们的表格。三范式的具体要求如下：  原子性（不可再分的字段） 非主键字段必须依赖主键 消除非主键之间的传递依赖">
 <meta property="og:image" content="http://zeco.oschina.io/css/images/mysql_t_1.bmp">
-<meta property="og:updated_time" content="2017-06-21T10:24:22.386Z">
+<meta property="og:updated_time" content="2017-06-22T14:15:29.210Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mysql 优化(I) 数据表设计规范">
+<meta name="twitter:title" content="Mysql (I) 数据表设计规范">
 <meta name="twitter:description" content="三范式&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;俗话说，好的表结构是一个项目成功的一般，而在项目中我们一般按照三范式的规范来设计我们的表格。三范式的具体要求如下：  原子性（不可再分的字段） 非主键字段必须依赖主键 消除非主键之间的传递依赖">
 <meta name="twitter:image" content="http://zeco.oschina.io/css/images/mysql_t_1.bmp">
     
@@ -158,11 +158,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                2
+                3
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                2
+                3
                 <span>标签</span>
             </div>
         </div>
@@ -206,7 +206,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            Mysql 优化(I) 数据表设计规范
+            Mysql (I) 数据表设计规范
         </h1>
     
 
@@ -224,13 +224,13 @@
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/mysql/">mysql</a>
+        <a class="article-category-link" href="/categories/数据库/">数据库</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/数据库/mysql/">mysql</a>
     </div>
 
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tagcloud/mysql表设计/">mysql表设计</a>
+        <a class="tag-link" href="/tagcloud/表设计/">表设计</a>
     </div>
 
                     </div>
@@ -261,9 +261,8 @@
 (消除order和order_name之间的传递依赖，将非主键之间的传递依赖消除)
 -&gt; id name order country province city price
 </code></pre><h3 id="逆范式"><a href="#逆范式" class="headerlink" title="逆范式"></a>逆范式</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;实际项目中，并不是完全按三范式的规范来设计表的结构，具体的项目中，逆范式的设计有时候可以简化sql的语句，提高sql语句的执行效率，此时逆范式的设计明显更有利于我们的项目，这个情况下使用逆范式的设计将更为科学。</p>
-<p>例如，我们现在有两张表，一张分类表（category），一张商品表（goods），这里我们项目需要查询分类id、分类名称、商品数量三个字段，具体的sql语句如下：</p>
-<pre><code>select c.*,count(g.goods_id) goods_num from category as c left join goods as g on c.cat_id = g.cat_id group by c.cat_id;
-</code></pre><p>可以看到，这个使用jion连表查询的sql语句相对于简单的表结构并不简单，而如果我们给分类表加上一个对应的商品数量字段，这样的sql语句将大大简化，这个时候我们大可不必严守三范式的设计思路，不妨使用逆范式的方式来设计这张表。</p>
+<p>例如，我们现在有两张表，一张分类表（category），一张商品表（goods），这里我们项目需要查询分类id、分类名称、商品数量三个字段，具体的sql语句如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select c.*,count(g.goods_id) goods_num from category as c left join goods as g on c.cat_id = g.cat_id group by c.cat_id;</div></pre></td></tr></table></figure></p>
+<p>可以看到，这个使用jion连表查询的sql语句相对于简单的表结构并不简单，而如果我们给分类表加上一个对应的商品数量字段，这样的sql语句将大大简化，这个时候我们大可不必严守三范式的设计思路，不妨使用逆范式的方式来设计这张表。</p>
 
         
         </div>
@@ -274,7 +273,7 @@
 
 </div>
 
-    <a data-url="http://zeco.oschina.io/2016/04/03/mysql_uh1/" data-id="cj46wcb2q0000wgrfnn6h24kn" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://zeco.oschina.io/2016/04/03/mysql_uh1/" data-id="cj48iqkfp0007g4rf2hjqm083" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -353,7 +352,7 @@
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    Mysql 优化(II) 引擎
+                    Mysql (II) 引擎
                 
             </div>
         </a>
@@ -390,18 +389,37 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/04/21/mysql_uh2/" class="thumbnail">
+                            <a href="/2016/04/30/mysql_uh3/" class="thumbnail">
     
     
-        <span style="background-image:url(/css/images/mysql_t_2.bmp)" alt="Mysql 优化(II) 引擎" class="thumbnail-image"></span>
+        <span style="background-image:url(/css/images/mysql_t_3.bmp)" alt="MySQL (III) 字段类型选择" class="thumbnail-image"></span>
     
 </a>
 
                         </div>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
-                            <p class="item-title"><a href="/2016/04/21/mysql_uh2/" class="title">Mysql 优化(II) 引擎</a></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/数据库/">数据库</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/数据库/mysql/">mysql</a></p>
+                            <p class="item-title"><a href="/2016/04/30/mysql_uh3/" class="title">MySQL (III) 字段类型选择</a></p>
+                            <p class="item-date"><time datetime="2016-04-30T13:17:06.000Z" itemprop="datePublished">2016-04-30</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/21/mysql_uh2/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/css/images/mysql_t_2.bmp)" alt="Mysql (II) 引擎" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/数据库/">数据库</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/数据库/mysql/">mysql</a></p>
+                            <p class="item-title"><a href="/2016/04/21/mysql_uh2/" class="title">Mysql (II) 引擎</a></p>
                             <p class="item-date"><time datetime="2016-04-21T09:31:46.000Z" itemprop="datePublished">2016-04-21</time></p>
                         </div>
                     </li>
@@ -412,15 +430,15 @@
                             <a href="/2016/04/03/mysql_uh1/" class="thumbnail">
     
     
-        <span style="background-image:url(/css/images/mysql_t_1.bmp)" alt="Mysql 优化(I) 数据表设计规范" class="thumbnail-image"></span>
+        <span style="background-image:url(/css/images/mysql_t_1.bmp)" alt="Mysql (I) 数据表设计规范" class="thumbnail-image"></span>
     
 </a>
 
                         </div>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
-                            <p class="item-title"><a href="/2016/04/03/mysql_uh1/" class="title">Mysql 优化(I) 数据表设计规范</a></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/数据库/">数据库</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/数据库/mysql/">mysql</a></p>
+                            <p class="item-title"><a href="/2016/04/03/mysql_uh1/" class="title">Mysql (I) 数据表设计规范</a></p>
                             <p class="item-date"><time datetime="2016-04-03T13:32:09.000Z" itemprop="datePublished">2016-04-03</time></p>
                         </div>
                     </li>
@@ -434,7 +452,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/mysql/">mysql</a><span class="category-list-count">3</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -443,7 +461,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">2</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">3</span></li></ul>
         </div>
     </div>
 
@@ -455,7 +473,7 @@
         <h3 class="widget-title">Tag Cloud</h3>
         <div id="myCanvasContainer" class="widget tagcloud">
             <canvas width="250" height="250" id="resCanvas" style="width=100%">
-                <a href="/tagcloud/mysql引擎/" style="font-size: 10px;">mysql引擎</a> <a href="/tagcloud/mysql表设计/" style="font-size: 10px;">mysql表设计</a>
+                <a href="/tagcloud/字段优化/" style="font-size: 10px;">字段优化</a> <a href="/tagcloud/数据库引擎/" style="font-size: 10px;">数据库引擎</a> <a href="/tagcloud/表设计/" style="font-size: 10px;">表设计</a>
             </canvas>
         </div>
     </div>

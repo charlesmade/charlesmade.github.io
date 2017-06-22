@@ -3,14 +3,21 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Archive: 2016 | Zeco&#39;s blog</title>
+    <title>MySQL (III) 字段类型选择 | Zeco&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Zeco&#39;s blog">
-<meta property="og:url" content="http://zeco.oschina.io/archives/2016/index.html">
+    <meta name="description" content="字段是组成一张表的最基本单元，但它们却是数据表设计时不得不严密考虑的部分，因为不恰当的字段类型选择，不仅容易造成数据库空间的浪费，以及冗余的产生，且在数据量巨大以及查询频繁的字段或表，将严重影响数据的读写速度。">
+<meta name="keywords" content="字段优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL (III) 字段类型选择">
+<meta property="og:url" content="http://zeco.oschina.io/2016/04/30/mysql_uh3/index.html">
 <meta property="og:site_name" content="Zeco&#39;s blog">
+<meta property="og:description" content="字段是组成一张表的最基本单元，但它们却是数据表设计时不得不严密考虑的部分，因为不恰当的字段类型选择，不仅容易造成数据库空间的浪费，以及冗余的产生，且在数据量巨大以及查询频繁的字段或表，将严重影响数据的读写速度。">
+<meta property="og:image" content="http://zeco.oschina.io/css/images/mysql_t_3.bmp">
+<meta property="og:updated_time" content="2017-06-22T14:23:55.276Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zeco&#39;s blog">
+<meta name="twitter:title" content="MySQL (III) 字段类型选择">
+<meta name="twitter:description" content="字段是组成一张表的最基本单元，但它们却是数据表设计时不得不严密考虑的部分，因为不恰当的字段类型选择，不仅容易造成数据库空间的浪费，以及冗余的产生，且在数据量巨大以及查询频繁的字段或表，将严重影响数据的读写速度。">
+<meta name="twitter:image" content="http://zeco.oschina.io/css/images/mysql_t_3.bmp">
     
 
     
@@ -191,25 +198,21 @@
 </aside>
 
             
-            <section id="main"><div class="timeline timeline-wrap">
-    
-            <div class="timeline-row timeline-row-major">
-                <span class="node"><i class="fa fa-calendar"></i></span>
-                <h1 class="title">2016</h1>
-            </div>
+            <section id="main"><article id="post-mysql_uh3" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+        
+            <header class="article-header">
                 
     
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2016/04/30/mysql_uh3/">MySQL (III) 字段类型选择</a>
+        <h1 class="article-title" itemprop="name">
+            MySQL (III) 字段类型选择
         </h1>
     
 
-                <div class="article-meta">
-                    
+                
+                    <div class="article-meta">
+                        
     <div class="article-date">
         <i class="fa fa-calendar"></i>
         <a href="/2016/04/30/mysql_uh3/">
@@ -218,63 +221,152 @@
     </div>
 
 
-                    
+                        
     <div class="article-category">
     	<i class="fa fa-folder"></i>
         <a class="article-category-link" href="/categories/数据库/">数据库</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/数据库/mysql/">mysql</a>
     </div>
 
-                    
+                        
     <div class="article-tag">
         <i class="fa fa-tag"></i>
         <a class="tag-link" href="/tagcloud/字段优化/">字段优化</a>
     </div>
 
-                </div>
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+                    </div>
                 
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2016/04/21/mysql_uh2/">Mysql (II) 引擎</a>
-        </h1>
-    
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><img src="/css/images/mysql_4.bmp" alt=""><br>字段是组成一张表的最基本单元，但它们却是数据表设计时不得不严密考虑的部分，因为不恰当的字段类型选择，不仅容易造成数据库空间的浪费，以及冗余的产生，且在数据量巨大以及查询频繁的字段或表，将严重影响数据的读写速度。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h3 id="Int（bigint，int，mediumint，smallint，tinyint）"><a href="#Int（bigint，int，mediumint，smallint，tinyint）" class="headerlink" title="Int（bigint，int，mediumint，smallint，tinyint）"></a>Int（bigint，int，mediumint，smallint，tinyint）</h3><p>因为计算机本身只分辨数字型的数据，所以合理的使用整形字段可以提升数据读取的速度。</p>
+<p>整形数据由大至小，从16个字节到1个字节不等，对于不同需求的表选择不同类型的int类型作为表的primary key是一个不错的选择。</p>
+<p>这里还要提到的一点，虽然MySQL数据库提供了datetime类型的字段，但我们还是尽量以int类型的格式来存储时间戳的方法来保存时间数据，这样可以提高读取速度和减少I/O的开销。</p>
+<p>在一些单选或者多选的字段里，也应当尽量避免使用枚举，适当的选用tinyint这样的短int数据是更好的选择。</p>
+<hr>
+<h3 id="Float（float，double，decimal）"><a href="#Float（float，double，decimal）" class="headerlink" title="Float（float，double，decimal）"></a>Float（float，double，decimal）</h3><p>其实在浮点类型的数据中，decimal并不是作为数字存储在数据库中的，相反他是以我们’厌恶’的字符类型存在。</p>
+<p>在这里，我们不得不来讨论一下浮点型数的一些缺点，单/双精度的数据类型在数据库中超过一定位数之后会出现失去精度的的情况，这个位数的大小在6位小数，而我们存储一些类似价格，额度等字段时，需要一种完全精确的记录，而decimal（65，30）如此长度的记录数完全满足我们的需求，这是浮点类型数据我们应当关心的部分。</p>
+<hr>
+<h3 id="字符（char，varchar）"><a href="#字符（char，varchar）" class="headerlink" title="字符（char，varchar）"></a>字符（char，varchar）</h3><p>虽然字符类型的数据在读取时并不佳，但字符型的数据却是一个数据库不可忽略的部分。</p>
+<p>char和varchar的不同体现在多个方面</p>
+<p>1.char类型数据最大长度（255），而varchar类型数据的最大长度为（65535）</p>
+<blockquote>
+<p>这里需要注意的是，varchar类型的数据长度存储的字节长度，即varchar类型的数据需要考虑编码的原因</p>
+</blockquote>
+<p>2.两者最主要体现在两者侧重的方面不同，char类型数据属于定长数据，不论存储多少长度的数据，都占据一定的空间，而varchar数据则不论在表中设计多大的长度，都依照存储的字符串长度来决定占用的空间</p>
+<p>3.因为varchar之所节省空间，是因为varchar经过了一层数据库的算法过滤，恰恰也是这层过滤，使得varchar类型的数据在读写速度上劣于char类型的数据。</p>
+<p>总而言之，varchar和char两者，一个为了节省空间而浪费了时间，一个为了节省时间而浪费了空间，这就需要我们在设计表格的时候，谨慎的去考虑和取舍了。</p>
 
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/04/21/mysql_uh2/">
-            <time datetime="2016-04-21T09:31:46.000Z" itemprop="datePublished">2016-04-21</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/数据库/">数据库</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/数据库/mysql/">mysql</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tagcloud/数据库引擎/">数据库引擎</a>
-    </div>
-
-                </div>
-            </div>
+        
         </div>
-    
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
 </div>
 
-    <nav id="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/archives/2016/page/2/">2</a><a class="extend next" rel="next" href="/archives/2016/page/2/">Next &raquo;</a>
-    </nav>
+    <a data-url="http://zeco.oschina.io/2016/04/30/mysql_uh3/" data-id="cj48iqkfi0003g4rfnrqqepwy" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2016/04/21/mysql_uh2/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Mysql (II) 引擎</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments"><div id="container"></div>
+
+	<div id="commentContainer"></div>
+
+
+</section>
+    
+
 </section>
             
                 
