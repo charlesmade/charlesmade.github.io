@@ -3,6 +3,34 @@
   
     
     <entry>
+      <title><![CDATA[PHP+salt加密]]></title>
+      <url>/2016/05/13/php+salt/</url>
+      <content type="html"><![CDATA[<p><img src="/css/images/mima_1.bmp" alt=""><br><a id="more"></a><br>最近又听闻用户信息泄露的新闻，此前，作为it小白的时候，实在不知道怎么处理这样的变故，而泄漏的信息如果被黑客利用，通过撞库的方法就可破解大多数用户的密码，毕竟用户偏向于使用自己简单容易记住的密码，也不会多去改变他们，这时，如果我们开发人员还使用单一的加密方式，那是十分不明智的。</p>
+<hr>
+<h3 id="MD5加盐加密"><a href="#MD5加盐加密" class="headerlink" title="MD5加盐加密"></a>MD5加盐加密</h3><p>我们对md5()这个函数再是熟悉不过了，都使用过md5()对用户密码进行加密处理，这样做没有错，因为MD5加密不可逆，但是这样做的安全性还是很低的，因为很多网站的用户数据都是用md5进行加密处理的，而且网上也有许多人为整理出来的常用的MD5加密库，而从CSDN当时泄漏出来的用户信息来看，即便是作为与网络打交道的程序员，其中也有许多使用的是简单的密码组合，及其容易被匹配出来，再者，对于黑客而言，其破解密码手段通过撞库，简单的密码组合就大大增大了密码被破解的几率。</p>
+<p>直接去开发一个新的算法来加密，从现实的角度是不实际的，那既然从算法的角度无法实现，那么我们就可以从入口的数据下手，将用户的密码添加一些佐料，这样即便是简单的密码，也会因为我们的加密，提升了密码组合的复杂程度，不会那么轻易的被破解，这就是所谓的加salt。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">$salt = get_salt(SALT); //我们通过设置不同的SALT值来获取不同等级的加密</div><div class="line">$password = &apos;we2134sda&apos;; //用户处获取的明文密码</div><div class="line">$md5_password = md5(&apos;your_site&apos;.$password.$salt);//最终加密后密码</div><div class="line">function get_salt（$param） &#123;</div><div class="line">	$salt = &apos;&apos;;</div><div class="line">	for ($i = 0;$i &lt; $param; $i++) &#123;</div><div class="line">		$salt .= chr(mt_rand(13,$param*12+13));</div><div class="line">	&#125;</div><div class="line">	return $salt;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里我们使用md5加随机生成的salt来增强加密后的密码安全性，然后我们记录下salt值，在用户注册的时候和密码一起生成并保存到数据库中，用户登录验证的时候再把密码和盐值一起组合验证，通过这样的手段就可以加强密码的安全性。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 安全 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 加密 </tag>
+            
+            <tag> md5 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[MySQL (III) 字段类型选择]]></title>
       <url>/2016/04/30/mysql_uh3/</url>
       <content type="html"><![CDATA[<p><img src="/css/images/mysql_4.bmp" alt=""><br>字段是组成一张表的最基本单元，但它们却是数据表设计时不得不严密考虑的部分，因为不恰当的字段类型选择，不仅容易造成数据库空间的浪费，以及冗余的产生，且在数据量巨大以及查询频繁的字段或表，将严重影响数据的读写速度。</p>
