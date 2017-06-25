@@ -3,14 +3,21 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Tag: md5 | Zeco&#39;s blog</title>
+    <title>用hexo+github搭建一个静态blog | Zeco&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Zeco&#39;s blog">
-<meta property="og:url" content="http://zeco.oschina.io/tagcloud/md5/index.html">
+    <meta name="description" content="关于怎么搭建blog的教程网上有一堆，挑一个比较详细的附上：如何搭建一个独立博客——简明Github Pages与Hexo教程这里就记录一些个人探过的一些小坑，以做前车之鉴。">
+<meta name="keywords" content="blog,hexo,github">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用hexo+github搭建一个静态blog">
+<meta property="og:url" content="http://zeco.oschina.io/2016/05/03/your blog/index.html">
 <meta property="og:site_name" content="Zeco&#39;s blog">
+<meta property="og:description" content="关于怎么搭建blog的教程网上有一堆，挑一个比较详细的附上：如何搭建一个独立博客——简明Github Pages与Hexo教程这里就记录一些个人探过的一些小坑，以做前车之鉴。">
+<meta property="og:image" content="http://zeco.oschina.io/css/images/blog_t_1.jpg">
+<meta property="og:updated_time" content="2017-06-25T14:54:58.443Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zeco&#39;s blog">
+<meta name="twitter:title" content="用hexo+github搭建一个静态blog">
+<meta name="twitter:description" content="关于怎么搭建blog的教程网上有一堆，挑一个比较详细的附上：如何搭建一个独立博客——简明Github Pages与Hexo教程这里就记录一些个人探过的一些小坑，以做前车之鉴。">
+<meta name="twitter:image" content="http://zeco.oschina.io/css/images/blog_t_1.jpg">
     
 
     
@@ -231,53 +238,147 @@
 </aside>
 
             
-            <section id="main">
-<div class="timeline timeline-wrap">
-    <div class="timeline-row timeline-row-major">
-        <span class="node"><i class="fa fa-tag"></i></span>
-        <h1 class="title">#md5</h1>
-    </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+            <section id="main"><article id="post-your blog" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
                 
     
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2016/05/13/php+salt/">PHP+salt加密</a>
+        <h1 class="article-title" itemprop="name">
+            用hexo+github搭建一个静态blog
         </h1>
     
 
-                <div class="article-meta">
-                    
+                
+                    <div class="article-meta">
+                        
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016/05/13/php+salt/">
-            <time datetime="2016-05-13T13:56:10.000Z" itemprop="datePublished">2016-05-13</time>
+        <a href="/2016/05/03/your blog/">
+            <time datetime="2016-05-03T13:56:58.000Z" itemprop="datePublished">2016-05-03</time>
         </a>
     </div>
 
 
-                    
+                        
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/安全/">安全</a>
+        <a class="article-category-link" href="/categories/blog/">blog</a>
     </div>
 
-                    
+                        
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tagcloud/md5/">md5</a>, <a class="tag-link" href="/tagcloud/加密/">加密</a>
+        <a class="tag-link" href="/tagcloud/blog/">blog</a>, <a class="tag-link" href="/tagcloud/github/">github</a>, <a class="tag-link" href="/tagcloud/hexo/">hexo</a>
     </div>
 
 
-                </div>
-            </div>
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><img src="/css/images/blog_1.jpg" alt=""><br>关于怎么搭建blog的教程网上有一堆，挑一个比较详细的附上：<a href="http://www.jianshu.com/p/05289a4bc8b2" target="_blank" rel="external">如何搭建一个独立博客——简明Github Pages与Hexo教程</a><br>这里就记录一些个人探过的一些小坑，以做前车之鉴。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>使用hexo搭建blog的时候系统默认了一个theme：landscape</p>
+<p>我使用的是这个主题：<a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="external">ICARUS</a></p>
+<p>下载之后要在主配置文件 _config.yaml里配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># Extensions</div><div class="line">## Plugins: https://hexo.io/plugins/</div><div class="line">## Themes: https://hexo.io/themes/</div><div class="line">theme: hexo-theme-icarus //你所下载的主题仓库名称</div></pre></td></tr></table></figure></p>
+<p>而如果需要调整请在主题文件夹的 _config.yaml里配置</p>
+<blockquote>
+<p>注意两者的位置<br>主配置文件位于hexo文件的根目录中<br>主题配置文件的目录位于hexo-&gt;themes-&gt;(your themes)-&gt;_config.yaml(一般出事文件还有后缀example，将他去掉就好了)</p>
+</blockquote>
+<h3 id="部署到github"><a href="#部署到github" class="headerlink" title="部署到github"></a>部署到github</h3><p>使用<span style="color:green;font-size:20px">$ hexo d</span> 就可以将生成好的静态文件部署到github上，但部署文件之前需要在主配置文件里配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># Deployment</div><div class="line">## Docs: https://hexo.io/docs/deployment.html</div><div class="line">deploy:</div><div class="line"> 		type: git</div><div class="line"> 		repo: https://github.com/yourgithubname/yourgithubname.github.io.git</div><div class="line"> 		branch: master</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意，这里的仓库名称一定要是你的：github用户名.github.io才会被github默认为pages</p>
+</blockquote>
+<p>但需要注意的是，有些时候这样的配置不一定能够成功，因为在hexo3里使用<span style="color:red">https://</span> 会影响他的部署<br>这里要将仓库地址repo改成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">repo：git@github.com:username/username.github.io.git</div></pre></td></tr></table></figure></p>
+<p>如果还是失败，那就要检查SSH key是否添加成功，以及git的设置是否成功</p>
+<h3 id="关于MarkDown的书写"><a href="#关于MarkDown的书写" class="headerlink" title="关于MarkDown的书写"></a>关于MarkDown的书写</h3><p>使用hexo new post [post title],可以生成一篇新的文章，只需要到<span style="color:purple">/source/_post/</span>下就可以找到生成的title.md文件<br>下面是标题文件的书写<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: blog标题</div><div class="line">categories: [一级分类，二级分类...]</div><div class="line">tags: [标签1,标签2,标签3...]</div><div class="line">thumbnail: url of image(缩略图的路径)</div><div class="line">---</div></pre></td></tr></table></figure></p>
+<p>博文正文的书写惨遭markdown语法，markdown语法兼容html的语法，相信对学习过html标签都不是一件难事。<br>这里再提一点，如果需要只显示部分的博文可以使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;!--more--&gt;</div></pre></td></tr></table></figure></p>
+<p>来分割显示和不显示的文章</p>
+<h3 id="关于plugin"><a href="#关于plugin" class="headerlink" title="关于plugin"></a>关于plugin</h3><p>hexo官网上有许多优秀的plugin，我找了一个比较有意思的<a href="https://github.com/MikeCoder/hexo-tag-cloud" target="_blank" rel="external">标签云插件</a><br>按照readme一步一步配置就可以实现动态的tagcloud了</p>
+<p>最后上一切的起源：<a href="https://hexo.io/" target="_blank" rel="external">hexo</a></p>
+
+        
         </div>
-    
+        <footer class="article-footer">
+            <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
 </div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/05/13/php+salt/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    PHP+salt加密
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/04/30/mysql_uh3/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">MySQL (III) 字段类型选择</div>
+        </a>
+    
+</nav>
 
 
+    
+</article>
+
+
+    
+    
+        <section id="comments"><div id="container"></div>
+
+	<div id="commentContainer"></div>
+
+
+</section>
+    
 
 </section>
             

@@ -152,17 +152,17 @@
         <div class="base-info profile-block">
             <img id="avatar" src="/css/images/wangshan.jpg" />
             <h2 id="name">張ふ文</h2>
-            <h3 id="title">Web Developer &amp; make a challenge</h3>
-            <span id="location"><i class="fa fa-map-marker"></i>ShangHai, China</span>
+            <h3 id="title">Say no to the world &amp; your life</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>心之所向，无不可往</span>
             <a id="follow" target="_blank" href="https://github.com/charlesmade/">关注</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                4
+                5
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                5
+                8
                 <span>标签</span>
             </div>
         </div>
@@ -195,6 +195,46 @@
         </div>
         
     </div>
+
+    <!-- 标签云 -->
+    
+    <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div id="myCanvasContainer" class="widget tagcloud">
+            <canvas width="250" height="250" id="resCanvas" style="width=100%">
+                <a href="/tagcloud/blog/" style="font-size: 10px;">blog</a> <a href="/tagcloud/github/" style="font-size: 10px;">github</a> <a href="/tagcloud/hexo/" style="font-size: 10px;">hexo</a> <a href="/tagcloud/md5/" style="font-size: 10px;">md5</a> <a href="/tagcloud/加密/" style="font-size: 10px;">加密</a> <a href="/tagcloud/字段优化/" style="font-size: 10px;">字段优化</a> <a href="/tagcloud/数据库引擎/" style="font-size: 10px;">数据库引擎</a> <a href="/tagcloud/表设计/" style="font-size: 10px;">表设计</a>
+            </canvas>
+        </div>
+    </div>
+    
+
+
+    <!-- 友情链接 -->
+    
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">友情链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://www.vimiix.com/about/" target='_blank'>vimiix</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://zyan.cc/" target='_blank'>张宴de博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://blog.jamespan.me/" target='_blank'>Jame&#39;s blog</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+    
+
 </aside>
 
             
@@ -233,6 +273,7 @@
         <a class="tag-link" href="/tagcloud/数据库引擎/">数据库引擎</a>
     </div>
 
+
                     </div>
                 
             </header>
@@ -263,78 +304,40 @@
         
         </div>
         <footer class="article-footer">
-            <div class="share-container">
-
-
-
+            <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
 </div>
-
-    <a data-url="http://zeco.oschina.io/2016/04/21/mysql_uh2/" data-id="cj49ywolu0002bgrfr6hye1jp" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
 </script>
-
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
             
     
 
@@ -383,7 +386,7 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">recent</h3>
+        <h3 class="widget-title">最近发表</h3>
         <div class="widget">
             <ul id="recent-post" class="">
                 
@@ -409,6 +412,25 @@
                     <li>
                         
                         <div class="item-thumbnail">
+                            <a href="/2016/05/03/your blog/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/css/images/blog_t_1.jpg)" alt="用hexo+github搭建一个静态blog" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/blog/">blog</a></p>
+                            <p class="item-title"><a href="/2016/05/03/your blog/" class="title">用hexo+github搭建一个静态blog</a></p>
+                            <p class="item-date"><time datetime="2016-05-03T13:56:58.000Z" itemprop="datePublished">2016-05-03</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
                             <a href="/2016/04/30/mysql_uh3/" class="thumbnail">
     
     
@@ -425,25 +447,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/04/21/mysql_uh2/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/css/images/mysql_t_2.bmp)" alt="Mysql (II) 引擎" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/数据库/">数据库</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/数据库/mysql/">mysql</a></p>
-                            <p class="item-title"><a href="/2016/04/21/mysql_uh2/" class="title">Mysql (II) 引擎</a></p>
-                            <p class="item-date"><time datetime="2016-04-21T09:31:46.000Z" itemprop="datePublished">2016-04-21</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -451,49 +454,20 @@
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">categories</h3>
+        <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/安全/">安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/mysql/">mysql</a><span class="category-list-count">3</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全/">安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/mysql/">mysql</a><span class="category-list-count">3</span></li></ul></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">archives</h3>
+        <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">3</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">3</span></li></ul>
         </div>
     </div>
-
-    
-        
-    <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
-    <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
-    <div class="widget-wrap">
-        <h3 class="widget-title">Tag Cloud</h3>
-        <div id="myCanvasContainer" class="widget tagcloud">
-            <canvas width="250" height="250" id="resCanvas" style="width=100%">
-                <a href="/tagcloud/md5/" style="font-size: 10px;">md5</a> <a href="/tagcloud/加密/" style="font-size: 10px;">加密</a> <a href="/tagcloud/字段优化/" style="font-size: 10px;">字段优化</a> <a href="/tagcloud/数据库引擎/" style="font-size: 10px;">数据库引擎</a> <a href="/tagcloud/表设计/" style="font-size: 10px;">表设计</a>
-            </canvas>
-        </div>
-    </div>
-
-    
-        
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">links</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="http://hexo.io">Hexo</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
 
     
     <div id="toTop" class="fa fa-angle-up"></div>
