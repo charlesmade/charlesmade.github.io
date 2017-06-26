@@ -3,6 +3,60 @@
   
     
     <entry>
+      <title><![CDATA[好玩的ReidsCycle]]></title>
+      <url>/2016/05/16/rediscycle/</url>
+      <content type="html"><![CDATA[<p><img src="/css/images/yanshi_1.bmp" alt=""><br>最近，突发奇想的想要设计一个延时触发的项目，上网翻腾了一把，着实发现了不少有意思的东西，这里附上感觉不错的两处：<a href="https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&mid=2651959961&idx=1&sn=afec02c8dc6db9445ce40821b5336736&scene=0#wechat_redirect" target="_blank" rel="external">一</a>、<a href="https://github.com/chaiyue/delayed" target="_blank" rel="external">二</a></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h3 id="比较常见的方案"><a href="#比较常见的方案" class="headerlink" title="比较常见的方案"></a>比较常见的方案</h3><p>使用cron定时任务，但是cron设定任务最低的<span style="color:red">精度</span>到<span style="color:blue">minute</span>,某些时候，我们需要的可能是精确到<span style="color:blue">second</span>级别的定时计划。</p>
+<p>再者，当表单数据量巨大时，使用cron进行轮询的效率就很低。</p>
+<blockquote>
+<p>因为，每次轮询都要扫一次库，之前执行过的记录仍会被扫描，这样的效率就会下降</p>
+</blockquote>
+<hr>
+<h3 id="使用redis实现高效的延时设计"><a href="#使用redis实现高效的延时设计" class="headerlink" title="使用redis实现高效的延时设计"></a>使用redis实现高效的延时设计</h3><p>参见<a href="https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&mid=2651959961&idx=1&sn=afec02c8dc6db9445ce40821b5336736&scene=0#wechat_redirect" target="_blank" rel="external">一</a>中的设计，这里包含两个重要的数据结构：</p>
+<blockquote>
+<ol>
+<li><span style="color:red">环形队列</span>，一个头尾相接数组，其包含3600个slot的环形队列（一环设计为1h==60min==3600s，cycle=n?）</li>
+<li><span style="color:red">work_ task</span>, 置于指定时间点的 [‘set’=&gt;[cycle,dot,work_task]]</li>
+<li><span style="color:red">timer</span>, 一个和环形队列对应的timer是必须的,每当timer变化设定的dot值时，环形队列的指针（index）便移动一位，同事检测当前dot上的set集，对比集中cycle，如果对应上，便执行此点上的work_ task</li>
+</ol>
+</blockquote>
+<p>这里我们设定一个例子：</p>
+<ol>
+<li>slot(3600,dot=1s)</li>
+<li>timer=dot=1s</li>
+<li>set=[task_1=&gt;[‘cycle’=&gt;3,’dot’=&gt;667,’task’=&gt;function(){echo ‘do it’}]]</li>
+</ol>
+<p>任务执行的逻辑如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(cycle=1,dot=667)--&gt;1 != 3 &amp;&amp; 667 == 667 continue</div><div class="line">(cycle=2,dot=667)--&gt;2 != 3 &amp;&amp; 667 == 667 continue</div><div class="line">(cycle=3,dot=667)--&gt;3 == 3 &amp;&amp; 667 == 667 do work_task--&gt;echo do it--&gt;delete work_task</div></pre></td></tr></table></figure></p>
+<p>从任务的逻辑不难看出，</p>
+<ol>
+<li>每次指针移动时，只需要查看当前dot上是否有set如果有set集则进行判断cycle值，决定是否执行任务，无需轮询全部任务，效率提升</li>
+<li>每个订单任务被执行之后，即刻更新任务数据，一个任务只执行一次</li>
+<li>时效性自定义，再不影响系统性能的情况下，就能够做到足够高的精确度</li>
+</ol>
+]]></content>
+      
+        <categories>
+            
+            <category> 数据库 </category>
+            
+            <category> nosql </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> redis </tag>
+            
+            <tag> 环形队列 </tag>
+            
+            <tag> 延时设计 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[PHP+salt加密]]></title>
       <url>/2016/05/13/php+salt/</url>
       <content type="html"><![CDATA[<p><img src="/css/images/mima_1.bmp" alt=""><br><a id="more"></a><br>最近又听闻用户信息泄露的新闻，此前，作为it小白的时候，实在不知道怎么处理这样的变故，而泄漏的信息如果被黑客利用，通过撞库的方法就可破解大多数用户的密码，毕竟用户偏向于使用自己简单容易记住的密码，也不会多去改变他们，这时，如果我们开发人员还使用单一的加密方式，那是十分不明智的。</p>
