@@ -3,6 +3,81 @@
   
     
     <entry>
+      <title><![CDATA[git操作(I) 提交到远程仓库]]></title>
+      <url>/2017/05/27/git_1/</url>
+      <content type="html"><![CDATA[<p><img src="/css/images/git_1.jpg" alt=""><br>目前市面有许多第三方git操作软件，比如我曾经用过的<a href="https://www.sourcetreeapp.com/" target="_blank" rel="external">Source Tree</a>，就是一款上手和使用起来都不错的工具，但时间一长，总觉得差点微妙的feel，于是又灰溜溜的决定把命令行捡回来，写个系列的使用记录。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h3 id="创建一个本地仓库"><a href="#创建一个本地仓库" class="headerlink" title="创建一个本地仓库"></a>创建一个本地仓库</h3><ol>
+<li>现在，有一个尚未开始的项目，那么进入你项目存放的目录<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd XXX</div><div class="line">$ git init</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这样你就获得了一个仓库，并且处于当前<span style="color:green">master branch</span>上</p>
+<ol>
+<li>或者通过clone一个远程的仓库到本地<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd XXX</div><div class="line">$ git clone url:repositories [repo&apos;s name]</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>需要注意的是，这个本地文件夹（<span style="color:red">XXX</span>）要是一个空的文件夹，否则会报错</p>
+</blockquote>
+<hr>
+<h3 id="完成文件提交"><a href="#完成文件提交" class="headerlink" title="完成文件提交"></a>完成文件提交</h3><ol>
+<li>创建一个本地文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ vim ./hello_git.md</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>在文件输入你想加入的内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">~ hello git :)</div></pre></td></tr></table></figure></p>
+<p>保存后退出</p>
+<ol>
+<li>添加文件到暂存区，提交文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">使用</div><div class="line">$ git status</div><div class="line">查看当前文件状态，出现未添加文件，使用</div><div class="line">$ git add ./hello_git.md</div><div class="line">再查看文件状态‘</div><div class="line">$ git status</div><div class="line">这里显示文件暂存，然后准备commit</div><div class="line">$ git commit -m &apos;备注信息&apos;</div><div class="line">再次查看工作区时，显示tree clean，说明提交成功</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>你也可以使用 git status -s 命令查看更为详细的状态<br>也可以通过 git log 来查看每次commit</p>
+</blockquote>
+<hr>
+<h3 id="关联远程仓库"><a href="#关联远程仓库" class="headerlink" title="关联远程仓库"></a>关联远程仓库</h3><p>git 属于分布式版本控制系统,每个电脑就相当于一个仓库，但如果你有一个geek的心，你可以将你的代码分享到一个远程的托管系统上，其中的代表有世界上最大的同性交友网站<a href="https://github.com/" target="_blank" rel="external">github</a>，还有国内的两个不错的托管平台<a href="https://coding.net/" target="_blank" rel="external">coding</a>和<a href="https://git.oschina.net/" target="_blank" rel="external">码云</a>。</p>
+<p>我们可以通过remote命令将自己的代码托管在远程的代码托管平台上</p>
+<ol>
+<li>查看关联的远程仓库<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git remote -v</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>获得已经关联的远程仓库<br>2 . 配置本地账户信息<br>配置一个本地的用户信息，使得仓库中的操作是由谁做出的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git config --global user.name &quot;your_username&quot;  </div><div class="line">$ git config --global user.email your_email@domain.com</div></pre></td></tr></table></figure></p>
+<ol>
+<li>生成ssh秘钥<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ssh-keygen -t rsa -C &quot;your_email@domain.com&quot;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>输入命令之后会提示三次确认，一直回车确定，最后提示创建成功，然后进入主文件查看生成的id_rsa和id_rsa.pub，将id_rsa.pub公钥打开，添加到远程创建的长裤中</p>
+<blockquote>
+<p>打开公钥使用编辑器，否则可能会影响编码，导致添加失败</p>
+</blockquote>
+<ol>
+<li>添加远程仓库地址<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git remote add origin https://your_username@bitbucket.org/your_username/name_of_remote_repository.git </div><div class="line">$ git push origin master</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>显示push成功之后，就可以再远程仓库里看到你提交的代码了</p>
+<blockquote>
+<p>如果使用的clone仓库，那么本地默认存在远程仓库地址，只需要添加ssh公钥认证之后就可以提交代码到远程仓库了</p>
+</blockquote>
+<hr>
+<p>如果你看了这些还是不太了解提交的过程，可以参考git官方给出的<a href="https://git-scm.com/book/zh/v2" target="_blank" rel="external">操作book</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> 工具 </category>
+            
+            <category> git </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> git </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[好玩的ReidsCycle]]></title>
       <url>/2016/05/16/rediscycle/</url>
       <content type="html"><![CDATA[<p><img src="/css/images/yanshi_1.bmp" alt=""><br>最近，突发奇想的想要设计一个延时触发的项目，上网翻腾了一把，着实发现了不少有意思的东西，这里附上感觉不错的两处：<a href="https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&mid=2651959961&idx=1&sn=afec02c8dc6db9445ce40821b5336736&scene=0#wechat_redirect" target="_blank" rel="external">一</a>、<a href="https://github.com/chaiyue/delayed" target="_blank" rel="external">二</a></p>
