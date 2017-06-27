@@ -3,14 +3,21 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Archivo: 2017/5 | Zeco&#39;s blog</title>
+    <title>git操作(I) 提交到远程仓库 | Zeco&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Zeco&#39;s blog">
-<meta property="og:url" content="http://zeco.oschina.io/archives/2017/05/index.html">
+    <meta name="description" content="目前市面有许多第三方git操作软件，比如我曾经用过的Source Tree，就是一款上手和使用起来都不错的工具，但时间一长，总觉得差点微妙的feel，于是又灰溜溜的决定把命令行捡回来，写个系列的使用记录。">
+<meta name="keywords" content="git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git操作(I) 提交到远程仓库">
+<meta property="og:url" content="http://zeco.oschina.io/2016/05/27/git_1/index.html">
 <meta property="og:site_name" content="Zeco&#39;s blog">
+<meta property="og:description" content="目前市面有许多第三方git操作软件，比如我曾经用过的Source Tree，就是一款上手和使用起来都不错的工具，但时间一长，总觉得差点微妙的feel，于是又灰溜溜的决定把命令行捡回来，写个系列的使用记录。">
+<meta property="og:image" content="http://zeco.oschina.io/css/images/git_t_1.jpg">
+<meta property="og:updated_time" content="2017-06-27T12:55:58.224Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zeco&#39;s blog">
+<meta name="twitter:title" content="git操作(I) 提交到远程仓库">
+<meta name="twitter:description" content="目前市面有许多第三方git操作软件，比如我曾经用过的Source Tree，就是一款上手和使用起来都不错的工具，但时间一长，总觉得差点微妙的feel，于是又灰溜溜的决定把命令行捡回来，写个系列的使用记录。">
+<meta name="twitter:image" content="http://zeco.oschina.io/css/images/git_t_1.jpg">
     
 
     
@@ -74,7 +81,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -93,10 +100,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -127,7 +134,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -235,51 +242,173 @@
 </aside>
 
             
-            <section id="main"><div class="timeline timeline-wrap">
-    
-            <div class="timeline-row timeline-row-major">
-                <span class="node"><i class="fa fa-calendar"></i></span>
-                <h1 class="title">2017</h1>
-            </div>
+            <section id="main"><article id="post-git_1" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+        
+            <header class="article-header">
                 
     
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2017/05/27/git_1/">git操作(I) 提交到远程仓库</a>
+        <h1 class="article-title" itemprop="name">
+            git操作(I) 提交到远程仓库
         </h1>
     
 
-                <div class="article-meta">
-                    
+                
+                    <div class="article-meta">
+                        
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/05/27/git_1/">
-            <time datetime="2017-05-27T10:46:34.000Z" itemprop="datePublished">2017-05-27</time>
+        <a href="/2016/05/27/git_1/">
+            <time datetime="2016-05-27T10:46:34.000Z" itemprop="datePublished">2016-05-27</time>
         </a>
     </div>
 
 
-                    
+                        
     <div class="article-category">
     	<i class="fa fa-folder"></i>
         <a class="article-category-link" href="/categories/工具/">工具</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/工具/git/">git</a>
     </div>
 
-                    
+                        
     <div class="article-tag">
         <i class="fa fa-tag"></i>
         <a class="tag-link" href="/tagcloud/git/">git</a>
     </div>
 
 
-                </div>
-            </div>
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><img src="/css/images/git_1.jpg" alt=""><br>目前市面有许多第三方git操作软件，比如我曾经用过的<a href="https://www.sourcetreeapp.com/" target="_blank" rel="external">Source Tree</a>，就是一款上手和使用起来都不错的工具，但时间一长，总觉得差点微妙的feel，于是又灰溜溜的决定把命令行捡回来，写个系列的使用记录。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h3 id="创建一个本地仓库"><a href="#创建一个本地仓库" class="headerlink" title="创建一个本地仓库"></a>创建一个本地仓库</h3><ol>
+<li>现在，有一个尚未开始的项目，那么进入你项目存放的目录<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd XXX</div><div class="line">$ git init</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这样你就获得了一个仓库，并且处于当前<span style="color:green">master branch</span>上</p>
+<ol>
+<li>或者通过clone一个远程的仓库到本地<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd XXX</div><div class="line">$ git clone url:repositories [repo&apos;s name]</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>需要注意的是，这个本地文件夹（<span style="color:red">XXX</span>）要是一个空的文件夹，否则会报错</p>
+</blockquote>
+<hr>
+<h3 id="完成文件提交"><a href="#完成文件提交" class="headerlink" title="完成文件提交"></a>完成文件提交</h3><ol>
+<li>创建一个本地文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ vim ./hello_git.md</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>在文件输入你想加入的内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">~ hello git :)</div></pre></td></tr></table></figure></p>
+<p>保存后退出</p>
+<ol>
+<li>添加文件到暂存区，提交文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">使用</div><div class="line">$ git status</div><div class="line">查看当前文件状态，出现未添加文件，使用</div><div class="line">$ git add ./hello_git.md</div><div class="line">再查看文件状态‘</div><div class="line">$ git status</div><div class="line">这里显示文件暂存，然后准备commit</div><div class="line">$ git commit -m &apos;备注信息&apos;</div><div class="line">再次查看工作区时，显示tree clean，说明提交成功</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>你也可以使用 git status -s 命令查看更为详细的状态<br>也可以通过 git log 来查看每次commit</p>
+</blockquote>
+<hr>
+<h3 id="关联远程仓库"><a href="#关联远程仓库" class="headerlink" title="关联远程仓库"></a>关联远程仓库</h3><p>git 属于分布式版本控制系统,每个电脑就相当于一个仓库，但如果你有一个geek的心，你可以将你的代码分享到一个远程的托管系统上，其中的代表有世界上最大的同性交友网站<a href="https://github.com/" target="_blank" rel="external">github</a>，还有国内的两个不错的托管平台<a href="https://coding.net/" target="_blank" rel="external">coding</a>和<a href="https://git.oschina.net/" target="_blank" rel="external">码云</a>。</p>
+<p>我们可以通过remote命令将自己的代码托管在远程的代码托管平台上</p>
+<ol>
+<li>查看关联的远程仓库<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git remote -v</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>获得已经关联的远程仓库<br>2 . 配置本地账户信息<br>配置一个本地的用户信息，使得仓库中的操作是由谁做出的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git config --global user.name &quot;your_username&quot;  </div><div class="line">$ git config --global user.email your_email@domain.com</div></pre></td></tr></table></figure></p>
+<ol>
+<li>生成ssh秘钥<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ssh-keygen -t rsa -C &quot;your_email@domain.com&quot;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>输入命令之后会提示三次确认，一直回车确定，最后提示创建成功，然后进入主文件查看生成的id_rsa和id_rsa.pub，将id_rsa.pub公钥打开，添加到远程创建的长裤中</p>
+<blockquote>
+<p>打开公钥使用编辑器，否则可能会影响编码，导致添加失败</p>
+</blockquote>
+<ol>
+<li>添加远程仓库地址<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git remote add origin https://your_username@bitbucket.org/your_username/name_of_remote_repository.git </div><div class="line">$ git push origin master</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>显示push成功之后，就可以再远程仓库里看到你提交的代码了</p>
+<blockquote>
+<p>如果使用的clone仓库，那么本地默认存在远程仓库地址，只需要添加ssh公钥认证之后就可以提交代码到远程仓库了</p>
+</blockquote>
+<hr>
+<p>如果你看了这些还是不太了解提交的过程，可以参考git官方给出的<a href="https://git-scm.com/book/zh/v2" target="_blank" rel="external">操作book</a></p>
+
+        
         </div>
-    
+        <footer class="article-footer">
+            <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
 </div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2016/05/16/rediscycle/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">好玩的ReidsCycle</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments"><div id="container"></div>
+
+	<div id="commentContainer"></div>
+
+
+</section>
+    
+
 </section>
             
                 
@@ -294,7 +423,7 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/05/27/git_1/" class="thumbnail">
+                            <a href="/2016/05/27/git_1/" class="thumbnail">
     
     
         <span style="background-image:url(/css/images/git_t_1.jpg)" alt="git操作(I) 提交到远程仓库" class="thumbnail-image"></span>
@@ -305,8 +434,8 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/工具/">工具</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/工具/git/">git</a></p>
-                            <p class="item-title"><a href="/2017/05/27/git_1/" class="title">git操作(I) 提交到远程仓库</a></p>
-                            <p class="item-date"><time datetime="2017-05-27T10:46:34.000Z" itemprop="datePublished">2017-05-27</time></p>
+                            <p class="item-title"><a href="/2016/05/27/git_1/" class="title">git操作(I) 提交到远程仓库</a></p>
+                            <p class="item-date"><time datetime="2016-05-27T10:46:34.000Z" itemprop="datePublished">2016-05-27</time></p>
                         </div>
                     </li>
                 
@@ -366,7 +495,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">3</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">3</span></li></ul>
         </div>
     </div>
 
