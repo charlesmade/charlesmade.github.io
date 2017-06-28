@@ -3,6 +3,38 @@
   
     
     <entry>
+      <title><![CDATA[LinuxCon引发的思考]]></title>
+      <url>/2017/06/28/futrue_road/</url>
+      <content type="html"><![CDATA[<p><img src="/css/images/fuck_1.jpg" alt=""><br>2017年的夏天，LinuxCon第一次在中国召开，一年之前，我对这个消息一点反应也没有，现在却突兀的觉得有些触动，似乎某些不起眼的东西就发生在你身边，这世界上没有谁能知道这对未来代表了什么，我不知道，你也不知道，但世间的事总是这样，不是等你准备好了再发生，而是有着它自己的规律，就那么生长着，盛放着，爆发着，然后死亡。</p>
+<p>闲扯了一堆没头没脑的话，就像我近来混沌的头脑，里面填了一些东西，反倒不如当初清醒，不知道自己需要什么了。</p>
+<p>然而，今天突然看到linus在和Dirk Hohndel的炉边谈话里的这么一句话</p>
+<blockquote>
+<p>For me, I was always self-motivated and knew what I wanted to do. I was never told what I should look at doing. I’m not sure my example is the right thing for people to follow. There are a ton of open source projects and, if you are a beginning programmer, find something you’re interested in that you can follow for more than just a few weeks. Get to know the code so well that you get to the point where you are an expert on a code piece. It doesn’t need to be the whole project. No one is an expert on the whole kernel, but you can know an area well.</p>
+<p><span style="color:red">If you can be part of a community and set up patches, it’s not just about the coding, but about the social aspect of open source. You make connections and improve yourself as a programmer.</span> You are basically showing off – I made these improvements, I’m capable of going far in my community or job. You’ll have to spend a certain amount of time to learn a project, but there’s a huge upside – not just from a career aspect, but having an amazing project in your life.</p>
+</blockquote>
+<p>对于其中it’s not just about the coding，you make connections 这两句话话，感触尤深。</p>
+<p>毫无波澜的工作生活往往让我们忘记一些东西，有些时候我们通过游戏，狂欢来消磨忘记它们，但这世界上最稳固的东西就是我们每天都要面对的日出日落，不论怎么逃避，他就在那里等着你回去，等着你去面对他。</p>
+<p>我也模糊的明晰了自己所需要的东西，我不需要在每一个方面做得完美，但需要在某一个方面，做到令自己自豪的成绩，最后，一句话送给自己和看到这篇文章的你，<span style="color:green">the day and night, not only for small life,but for a gaint soul.</span></p>
+]]></content>
+      
+        <categories>
+            
+            <category> 闲扯 </category>
+            
+            <category> 职业思考 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> about futrue </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[git操作(I) 提交到远程仓库]]></title>
       <url>/2016/05/27/git_1/</url>
       <content type="html"><![CDATA[<p><img src="/css/images/git_1.jpg" alt=""><br>目前市面有许多第三方git操作软件，比如我曾经用过的<a href="https://www.sourcetreeapp.com/" target="_blank" rel="external">Source Tree</a>，就是一款上手和使用起来都不错的工具，但时间一长，总觉得差点微妙的feel，于是又灰溜溜的决定把命令行捡回来，写个系列的使用记录。</p>
