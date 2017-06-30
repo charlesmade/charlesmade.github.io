@@ -35,8 +35,65 @@
     </entry>
     
     <entry>
+      <title><![CDATA[分布式服务器集群架构方案思考]]></title>
+      <url>/2016/07/15/zfenbu_1/</url>
+      <content type="html"><![CDATA[<p><img src="/css/images/z_fenbu_1.jpg" alt=""><br>网上看到一个分布式的服务器集群架构，看了下觉得自己对于分布式的理解清晰了不少，于是摘录下来以免丢失。<br><a id="more"></a><br>原文出处：<a href="http://homeway.me/2014/12/10/think-about-distributed-clusters/" target="_blank" rel="external">分布式服务器集群架构方案思考 by 夏日小草</a></p>
+<hr>
+<h3 id="大型网站演化"><a href="#大型网站演化" class="headerlink" title="大型网站演化"></a>大型网站演化</h3><p>简单说，分布式是以缩短单个任务的执行时间来提升效率的，而集群则是通过提高单位时间内执行的任务数来提升效率。</p>
+<p>集群主要分为：高可用集群(High Availability Cluster)，负载均衡集群(Load Balance Cluster，nginx即可实现)，科学计算集群(High Performance Computing Cluster)。</p>
+<p>分布式是指将不同的业务分布在不同的地方；而集群指的是将几台服务器集中在一起，实现同一业务。分布式中的每一个节点，都可以做集群。 而集群并不一定就是分布式的。</p>
+<p>之前在网上看到一篇关于大型网站演化的博客。<a href="http://www.cnblogs.com/leefreeman/p/3993449.html" target="_blank" rel="external">page</a></p>
+<p>每个大型网站都会有不同的架构模式，而架构内容也就是在处理均衡负载，缓存，数据库，文件系统等，只是在不同的环境下，不同的条件下，架构的模型不一样，目的旨在提高网站的性能。</p>
+<p>最初的架构只有应用程序，数据库，文件服务。<br><img src="/css/images/z_fenbu_1_1.jpg" alt="应用程序、数据库、文件服务架构"><br>到后来，分布式服务、集群架设。<br><img src="/css/images/z_fenbu_1_2.jpg" alt="分布式服务器集群"></p>
+<hr>
+<h3 id="关于均衡负载方案"><a href="#关于均衡负载方案" class="headerlink" title="关于均衡负载方案"></a>关于均衡负载方案</h3><p>在上一篇，<a href="http://homeway.me/2014/12/05/nginx-reverse-proxy-to-load-balance/" target="_blank" rel="external">《Nginx反向代理实现均衡负载》</a>讨论过过的nginx现实均衡负载方案，这里选择另一种HAProxy+Keepalived双机高可用均衡负载方案。</p>
+<p>HAProxy是免费、极速且可靠的用于为TCP和基于HTTP应用程序提供高可用、负载均衡和代理服务的解决方案，尤其适用于高负载且需要持久连接或7层处理机制的web站点。</p>
+<p>不论是Haproxy还是Keepalived甚至是上游服务器均提高生产力并增强可用性,也就是如下架构中Haproxy,Keepalived,Httpd服务器任意宕机一台服务还是可以正常运行的。</p>
+<p>HAProxy的优点：</p>
+<p>1、HAProxy是支持虚拟主机的，可以工作在4、7层(支持多网段)；</p>
+<p>2、能够补充Nginx的一些缺点比如Session的保持，Cookie的引导等工作；</p>
+<p>3、支持url检测后端的服务器；</p>
+<p>4、本身仅仅就只是一款负载均衡软件；单纯从效率上来讲HAProxy更会比Nginx有更出色的负载均衡速度，在并发处理上也是优于Nginx的；</p>
+<p>5、HAProxy可以对Mysql读进行负载均衡，对后端的MySQL节点进行检测和负载均衡；<br><img src="/css/images/z_fenbu_1_3.jpg" alt="HAProxy+Keepalive 均衡负载方案"></p>
+<hr>
+<h3 id="关于Redis缓存方案"><a href="#关于Redis缓存方案" class="headerlink" title="关于Redis缓存方案"></a>关于Redis缓存方案</h3><p>缓存分为服务器缓存和应用程序缓存。</p>
+<p>关于应用程序内缓存，已经在<a href="https://github.com/grasses/Jue-MVC" target="_blank" rel="external">Jue后台框架</a>里面做了模块处理了。</p>
+<p>关于服务器缓存，主要缓存服务器文件，减少服务器和php交互，减少均衡负载服务器和应用程序服务器交互。</p>
+<p>缓存里面有一种典型的memcached，现在用的多的是redis轻量级缓存方案。</p>
+<p>关于memcached与redis，看这篇 <a href="http://www.bigdatalittlegeek.com/blog/2014/3/25/memcached-vs-redis" target="_blank" rel="external">《Memcached vs Redis?》</a></p>
+<p>Redis主要将数据存储在各种格式：列表，数组，集合和排序集，一次能接受多个命令，阻塞读写，等待直到另一个进程将数据写入高速缓存。<br><img src="/css/images/z_fenbu_1_4.jpg" alt="Redis Cache 方案"><br>一篇关于Reids缓存方案。<a href="http://www.infoq.com/cn/news/2014/11/open-source-redis-cache" target="_blank" rel="external">《高可用、开源的Redis缓存集群方案》</a></p>
+<hr>
+<h3 id="关于NoSQL快速存储方案"><a href="#关于NoSQL快速存储方案" class="headerlink" title="关于NoSQL快速存储方案"></a>关于NoSQL快速存储方案</h3><p>NoSQL在这里的使用价值是处理一些琐事，比如用户个人网站的一些css值，height,width,color等等的小而繁多的数据，采用NoSQL旨在提升数据库速度，减少对MySQL的SELECT请求。</p>
+<p>关于NoSQL的方案很多了，选一个简单的MongDB好了。</p>
+<hr>
+<h3 id="关于分布式MySQL方案"><a href="#关于分布式MySQL方案" class="headerlink" title="关于分布式MySQL方案"></a>关于分布式MySQL方案</h3><p>(做分布式MySQL还没尝试过，初期也不清楚mysql所需要的压力，所以第一期不打算做分布式MySQL)</p>
+<p><a href="http://www.infoq.com/cn/news/2014/11/mysql-five-open-source-project" target="_blank" rel="external">《标准MySQL数据库外的5个开源兼容方案》</a></p>
+<hr>
+<h3 id="分布式集群方案"><a href="#分布式集群方案" class="headerlink" title="分布式集群方案"></a>分布式集群方案</h3><p>综合起来，大致就是如下模型，初探分布式架构，还有很多要修改的，待续，时时更新中…<br><img src="/css/images/z_fenbu_1_5.png" alt="Redis Cache 方案"></p>
+<hr>
+<h3 id="观后所感"><a href="#观后所感" class="headerlink" title="观后所感"></a>观后所感</h3><p>一个完整的架构设计并不是一件简单的事，其中涉及的知识很多，我也心知一口气吃不成胖子，更多的问题留待自己有更加成熟的思考和理解之后，再来整理</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 分布式部署 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 拿来的东西 </tag>
+            
+            <tag> 分布式 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[四种基本的排序算法学习总结]]></title>
-      <url>/2017/06/23/algorithm_1/</url>
+      <url>/2016/06/23/algorithm_1/</url>
       <content type="html"><![CDATA[<p><img src="/css/images/algorithm_1.jpg" alt=""><br>都说算法是程序的核心,但是作为一个半路出家的程序员，情不自禁的有点畏惧这个东西，但是今天却被教训了一顿，因为亲眼目睹前辈以一个简单的排序方法提升了好几倍的查询速度，好吧，决心一点点的啃下算法的硬骨头，提升一点自己coding的视野和高度。<br><a id="more"></a></p>
 <h2 id="今天就整理一下最简单的四个排序算法：冒泡、快速、选择、插入。"><a href="#今天就整理一下最简单的四个排序算法：冒泡、快速、选择、插入。" class="headerlink" title="今天就整理一下最简单的四个排序算法：冒泡、快速、选择、插入。"></a>今天就整理一下最简单的四个排序算法：冒泡、快速、选择、插入。</h2><h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><p>对一个乱序的数组，每次选择一个指定位置的元素（一般是第一个），每次scan，将被选择的元素作为基准，将乱序的数组分为大小两部分，后续递归剩下的部分，直到分割出来的数组长度不可再分。<br>具体举例如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">function quick_sort($arr) &#123; </div><div class="line">	$length = count($arr); </div><div class="line">	if($length &lt;= 1) &#123; //递归出口</div><div class="line">		return $arr; </div><div class="line">	&#125; </div><div class="line">	$base_array = $arr[0]; //选择第一个元素作为基准 </div><div class="line">	//初始化两个数组,保证每次递归签数组清空</div><div class="line">	$left_array = array();  //小于基准的 </div><div class="line">	$right_array = array();  //大于基准的 </div><div class="line">	for($i=1; $i&lt;$length; $i++) &#123; </div><div class="line">		if($base_num &gt; $arr[$i]) &#123;//放入左边数组  </div><div class="line">			$left_array[] = $arr[$i]; </div><div class="line">		&#125; else &#123; //放入右边 </div><div class="line">			$right_array[] = $arr[$i]; </div><div class="line">		&#125; </div><div class="line">	&#125; </div><div class="line">	//递归排序</div><div class="line">	$left_array = quick_sort($left_array); </div><div class="line">	$right_array = quick_sort($right_array); </div><div class="line">	//合并数组 </div><div class="line">	return array_merge($left_array, array($base_num), $right_array); </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <hr>
