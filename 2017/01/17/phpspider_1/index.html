@@ -3,14 +3,21 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Etiqueta: Algorithm | Zeco&#39;s blog</title>
+    <title>使用phpspider开发的PHP爬虫 | Zeco&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Zeco&#39;s blog">
-<meta property="og:url" content="http://zeco.oschina.io/tagcloud/Algorithm/index.html">
+    <meta name="description" content="开源库出处：Github  开发框架phpspider是一个爬虫开发框架。使用本框架，你不用了解爬虫的底层技术实现，爬虫被网站屏蔽、有些网站需要登录或验证码识别才能爬取等问题。简单几行PHP代码，就可以创建自己的爬虫，利用框架封装的多进程Worker类库，代码更简洁，执行效率更高速度更快。">
+<meta name="keywords" content="拿来的东西,爬虫">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用phpspider开发的PHP爬虫">
+<meta property="og:url" content="http://zeco.oschina.io/2017/01/17/phpspider_1/index.html">
 <meta property="og:site_name" content="Zeco&#39;s blog">
+<meta property="og:description" content="开源库出处：Github  开发框架phpspider是一个爬虫开发框架。使用本框架，你不用了解爬虫的底层技术实现，爬虫被网站屏蔽、有些网站需要登录或验证码识别才能爬取等问题。简单几行PHP代码，就可以创建自己的爬虫，利用框架封装的多进程Worker类库，代码更简洁，执行效率更高速度更快。">
+<meta property="og:image" content="http://zeco.oschina.io/css/images/phpspider_t_1.jpg">
+<meta property="og:updated_time" content="2017-07-01T15:26:48.600Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zeco&#39;s blog">
+<meta name="twitter:title" content="使用phpspider开发的PHP爬虫">
+<meta name="twitter:description" content="开源库出处：Github  开发框架phpspider是一个爬虫开发框架。使用本框架，你不用了解爬虫的底层技术实现，爬虫被网站屏蔽、有些网站需要登录或验证码识别才能爬取等问题。简单几行PHP代码，就可以创建自己的爬虫，利用框架封装的多进程Worker类库，代码更简洁，执行效率更高速度更快。">
+<meta name="twitter:image" content="http://zeco.oschina.io/css/images/phpspider_t_1.jpg">
     
 
     
@@ -239,53 +246,149 @@
 </aside>
 
             
-            <section id="main">
-<div class="timeline timeline-wrap">
-    <div class="timeline-row timeline-row-major">
-        <span class="node"><i class="fa fa-tag"></i></span>
-        <h1 class="title">#Algorithm</h1>
-    </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+            <section id="main"><article id="post-phpspider_1" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
                 
     
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2016/06/23/algorithm_1/">四种基本的排序算法学习总结</a>
+        <h1 class="article-title" itemprop="name">
+            使用phpspider开发的PHP爬虫
         </h1>
     
 
-                <div class="article-meta">
-                    
+                
+                    <div class="article-meta">
+                        
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016/06/23/algorithm_1/">
-            <time datetime="2016-06-23T14:45:00.000Z" itemprop="datePublished">2016-06-23</time>
+        <a href="/2017/01/17/phpspider_1/">
+            <time datetime="2017-01-17T14:55:00.000Z" itemprop="datePublished">2017-01-17</time>
         </a>
     </div>
 
 
-                    
+                        
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/算法学习/">算法学习</a>
+        <a class="article-category-link" href="/categories/数据技术/">数据技术</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/数据技术/爬虫/">爬虫</a>
     </div>
 
-                    
+                        
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tagcloud/Algorithm/">Algorithm</a>, <a class="tag-link" href="/tagcloud/排序/">排序</a>
+        <a class="tag-link" href="/tagcloud/拿来的东西/">拿来的东西</a>, <a class="tag-link" href="/tagcloud/爬虫/">爬虫</a>
     </div>
 
 
-                </div>
-            </div>
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><img src="/css/images/phpspider_1.gif" alt=""><br>开源库出处：<a href="https://github.com/owner888/phpspider" target="_blank" rel="external">Github</a></p>
+<hr>
+<h3 id="开发框架"><a href="#开发框架" class="headerlink" title="开发框架"></a>开发框架</h3><p>phpspider是一个爬虫开发框架。使用本框架，你不用了解爬虫的底层技术实现，爬虫被网站屏蔽、有些网站需要登录或验证码识别才能爬取等问题。简单几行PHP代码，就可以创建自己的爬虫，利用框架封装的多进程Worker类库，代码更简洁，执行效率更高速度更快。<br><a id="more"></a><br>demo目录下有一些特定网站的爬取规则，只要你安装了PHP环境，代码就可以在命令行下直接跑。</p>
+<hr>
+<h3 id="糗事百科案例"><a href="#糗事百科案例" class="headerlink" title="糗事百科案例"></a>糗事百科案例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">$configs = array(</div><div class="line">   &apos;name&apos; =&gt; &apos;糗事百科&apos;,</div><div class="line">   &apos;domains&apos; =&gt; array(</div><div class="line">       &apos;qiushibaike.com&apos;,</div><div class="line">       &apos;www.qiushibaike.com&apos;</div><div class="line">   ),</div><div class="line">   &apos;scan_urls&apos; =&gt; array(</div><div class="line">       &apos;http://www.qiushibaike.com/&apos;</div><div class="line">   ),</div><div class="line">   &apos;content_url_regexes&apos; =&gt; array(</div><div class="line">       &quot;http://www.qiushibaike.com/article/\d+&quot;</div><div class="line">   ),</div><div class="line">   &apos;list_url_regexes&apos; =&gt; array(</div><div class="line">       &quot;http://www.qiushibaike.com/8hr/page/\d+\?s=\d+&quot;</div><div class="line">   ),</div><div class="line">   &apos;fields&apos; =&gt; array(</div><div class="line">       array(</div><div class="line">           // 抽取内容页的文章内容</div><div class="line">           &apos;name&apos; =&gt; &quot;article_content&quot;,</div><div class="line">           &apos;selector&apos; =&gt; &quot;//*[@id=&apos;single-next-link&apos;]&quot;,</div><div class="line">           &apos;required&apos; =&gt; true</div><div class="line">       ),</div><div class="line">       array(</div><div class="line">           // 抽取内容页的文章作者</div><div class="line">           &apos;name&apos; =&gt; &quot;article_author&quot;,</div><div class="line">           &apos;selector&apos; =&gt; &quot;//div[contains(@class,&apos;author&apos;)]//h2&quot;,</div><div class="line">           &apos;required&apos; =&gt; true</div><div class="line">       ),</div><div class="line">   ),</div><div class="line">   );</div><div class="line">   $spider = new phpspider($configs);</div><div class="line">   $spider-&gt;start();</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="爬虫程序设计"><a href="#爬虫程序设计" class="headerlink" title="爬虫程序设计"></a>爬虫程序设计</h3><p>因为爬取的页面需要登录才能获取到关注者页面，所以从chrome登录之后把cookie拷贝下来给curl程序模拟登录。</p>
+<p>使用两大独立循环进程组(用户索引进程组、用户详情进程组)，用的是php的pcntl扩展，封装了一个非常好用的类，使用起来和golang的携程也差不多了。</p>
+<ol>
+<li>用户索引进程组先以一个用户为起点，抓取这个用户的关注了和关注者，然后合并入库，因为是多进程，所以当有两个进程在处理同一个用户入库的时候就会出现重复的用户，所以数据库用户名字段一定要建立唯一索引，当然也可以用redis这些第三方缓存来保证原子性，这个就见仁见智了。</li>
+<li><p>用户详情进程组按照时间正序，拿到最先入库的用户抓取详情，并且把更新时间更新为当前时间，这样就可以变成一个死循环，程序可以无休止的跑，不断的循环更新用户信息。</p>
+</li>
+<li><p>程序运行过程中出现的错误,因为网站会给数据强制gzip压缩，需要通过解压来获取有效数据</p>
+<blockquote>
+<p>$content = substr($content, 10);<br>$content = gzinflate($content));<br>curl_setopt( self::$ch, CURLOPT_ENCODING, ‘gzip’ );</p>
+</blockquote>
+</li>
+</ol>
+<hr>
+<h3 id="获取数据的作用（感想）"><a href="#获取数据的作用（感想）" class="headerlink" title="获取数据的作用（感想）"></a>获取数据的作用（感想）</h3><p>将一堆数据进行分类分析，通过数据的分布可以分析出平常不易看出来的规律，对于我们的决策有很大的指引意义。</p>
+<p>原文出处：<a href="http://www.epooll.com/archives/806/" target="_blank" rel="external">event poll</a></p>
+
+        
         </div>
-    
+        <footer class="article-footer">
+            <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
 </div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/06/28/futrue_road/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más nuevo</strong>
+            <div class="article-nav-title">
+                
+                    LinuxCon引发的思考
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/07/15/zfenbu_1/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más viejo</strong>
+            <div class="article-nav-title">分布式服务器集群架构方案思考</div>
+        </a>
+    
+</nav>
 
 
+    
+</article>
+
+
+    
+    
+        <section id="comments"><div id="container"></div>
+
+	<div id="commentContainer"></div>
+
+
+</section>
+    
 
 </section>
             
