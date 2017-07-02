@@ -35,6 +35,50 @@
     </entry>
     
     <entry>
+      <title><![CDATA[网站设计中的cache技术]]></title>
+      <url>/2017/03/02/cache_1/</url>
+      <content type="html"><![CDATA[<p><img src="/css/images/cache_1.jpg" alt=""><br>页面缓存的原理大体是在浏览器对资源的第一次请求之后，把资源中的一部分存储在计算机的临时文件空间，再次请求的时候，按照特定的策略加载缓存的资源，减少HTTP请求次数与传输数据量，以此提高浏览效率，<span style="color:blue">减少数据库和服务器的压力。</span></p>
+<p>在网站设计时要充分考虑缓存，合理的利用缓存和静态技术可以大大的提高网站的运行速度。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h3 id="页面静态化"><a href="#页面静态化" class="headerlink" title="页面静态化"></a>页面静态化</h3><p>将动态的页面生成静态的页面保存下来，但用户访问特定的页面时，直接将缓存好的静态页面返回给客户，省去了去数据库读取数据的过程，大大提高了网站的运行效率，降低了数据库的压力。</p>
+<blockquote>
+<p>这里牺牲了网站数据的及时性，一般静态化缓存会和其他技术结合起来使用，而不是单独使用。</p>
+</blockquote>
+<p>php里一般使用ob方法来实现页面静态缓存<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ob_start();</div><div class="line">$content = ob_get_contents();</div><div class="line">ob_end_clean();</div></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="页面部分静态化"><a href="#页面部分静态化" class="headerlink" title="页面部分静态化"></a>页面部分静态化</h3><p>使用模块化设计，将不需要数据动态化的部分进行静态化，使用ob函数输出，也可以使用其他技术，如ESI。</p>
+<p>一般即使动态的数据，如果数据变化不是十分频繁（我们通过设计固定时间来更新我们的数据），也可以通过一些标识（如：id）来保存静态化数据的页面，然后通过（id）来找到静态页面位置，当该页面被访问时，直接返回给用户。</p>
+<blockquote>
+<p>这里需要设计人员分割是否需要动态数据显示</p>
+</blockquote>
+<hr>
+<h3 id="memcached（redis）缓存"><a href="#memcached（redis）缓存" class="headerlink" title="memcached（redis）缓存"></a>memcached（redis）缓存</h3><p>内存缓存，一般使用memcached或者redis来实现，将数据以key&amp;value的方式保存在内存中，因为数据缓存在内存中，无需再去数据库里读取，这样不仅大大减轻了数据库的压力，也一样提升网站的处理速度。</p>
+<blockquote>
+<p>这里要注意memcached和redis的选用，如果只是单纯的key&amp;value的数据读取，那么memecached是不错的选择，如果对数据安全有要求，又需要比较复杂的数据存储形式，那么redis可能会更加适合你。具体详见<a href="#">Memcached和Redis</a></p>
+</blockquote>
+<hr>
+<h3 id="关于缓存"><a href="#关于缓存" class="headerlink" title="关于缓存"></a>关于缓存</h3><p>缓存有时候是让人讨厌的东西，但对于网页设计确实不得不去考虑的东西，这里简单的列举了三个比较常见的缓存技术，当然还有许多其他的缓存技术，留待以后慢慢的整理。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> php </category>
+            
+            <category> 静态技术 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> cache </tag>
+            
+            <tag> php </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[使用phpspider开发的PHP爬虫]]></title>
       <url>/2017/01/17/phpspider_1/</url>
       <content type="html"><![CDATA[<p><img src="/css/images/phpspider_1.gif" alt=""><br>开源库出处：<a href="https://github.com/owner888/phpspider" target="_blank" rel="external">Github</a></p>
