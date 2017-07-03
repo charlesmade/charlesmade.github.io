@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>redis vs memecached | Zeco&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Redis 是由来自意大利西西里岛的Salvatore Sanfilippo开发的一款开源的，使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库。 这里不得不说一个勤奋的作者对一款开源软件是一件很重要的事，时至今日，与前辈memcached相比，Redis在大多数方面已经完成了全面的超越。 下面摘录一段在stackoverflow上看到关于redis的文章。">
+<meta name="keywords" content="redis,nosql,memcached">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis vs memecached">
+<meta property="og:url" content="http://zeco.oschina.io/2016/12/03/redis_vs_mem/index.html">
+<meta property="og:site_name" content="Zeco&#39;s blog">
+<meta property="og:description" content="Redis 是由来自意大利西西里岛的Salvatore Sanfilippo开发的一款开源的，使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库。 这里不得不说一个勤奋的作者对一款开源软件是一件很重要的事，时至今日，与前辈memcached相比，Redis在大多数方面已经完成了全面的超越。 下面摘录一段在stackoverflow上看到关于redis的文章。">
+<meta property="og:image" content="http://zeco.oschina.io/css/images/r_v_m_t_1.jpg">
+<meta property="og:updated_time" content="2017-07-03T11:20:08.591Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis vs memecached">
+<meta name="twitter:description" content="Redis 是由来自意大利西西里岛的Salvatore Sanfilippo开发的一款开源的，使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库。 这里不得不说一个勤奋的作者对一款开源软件是一件很重要的事，时至今日，与前辈memcached相比，Redis在大多数方面已经完成了全面的超越。 下面摘录一段在stackoverflow上看到关于redis的文章。">
+<meta name="twitter:image" content="http://zeco.oschina.io/css/images/r_v_m_t_1.jpg">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Zeco</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于作者</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/wangshan.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Entradas',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categorias',
+            TAGS: 'Etiquetas',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于作者</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/wangshan.jpg" />
+            <h2 id="name">張ふ文</h2>
+            <h3 id="title">Say no to the world &amp; your life</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>心之所向，无不可往</span>
+            <a id="follow" target="_blank" href="https://github.com/charlesmade/">关注</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                13
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                22
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/charlesmade/" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="weibo" class=tooltip>
+                            <i class="fa fa-weibo"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="qq" class=tooltip>
+                            <i class="fa fa-qq"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+
+    <!-- 标签云 -->
+    
+    <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div id="myCanvasContainer" class="widget tagcloud">
+            <canvas width="250" height="250" id="resCanvas" style="width=100%">
+                <a href="/tagcloud/Algorithm/" style="font-size: 10px;">Algorithm</a> <a href="/tagcloud/about-futrue/" style="font-size: 10px;">about futrue</a> <a href="/tagcloud/blog/" style="font-size: 10px;">blog</a> <a href="/tagcloud/cache/" style="font-size: 10px;">cache</a> <a href="/tagcloud/git/" style="font-size: 10px;">git</a> <a href="/tagcloud/github/" style="font-size: 10px;">github</a> <a href="/tagcloud/hexo/" style="font-size: 10px;">hexo</a> <a href="/tagcloud/md5/" style="font-size: 10px;">md5</a> <a href="/tagcloud/memcached/" style="font-size: 10px;">memcached</a> <a href="/tagcloud/nosql/" style="font-size: 10px;">nosql</a> <a href="/tagcloud/php/" style="font-size: 10px;">php</a> <a href="/tagcloud/redis/" style="font-size: 20px;">redis</a> <a href="/tagcloud/分布式/" style="font-size: 10px;">分布式</a> <a href="/tagcloud/加密/" style="font-size: 10px;">加密</a> <a href="/tagcloud/字段优化/" style="font-size: 10px;">字段优化</a> <a href="/tagcloud/延时设计/" style="font-size: 10px;">延时设计</a> <a href="/tagcloud/拿来的东西/" style="font-size: 20px;">拿来的东西</a> <a href="/tagcloud/排序/" style="font-size: 10px;">排序</a> <a href="/tagcloud/数据库引擎/" style="font-size: 10px;">数据库引擎</a> <a href="/tagcloud/爬虫/" style="font-size: 10px;">爬虫</a> <a href="/tagcloud/环形队列/" style="font-size: 10px;">环形队列</a> <a href="/tagcloud/表设计/" style="font-size: 10px;">表设计</a>
+            </canvas>
+        </div>
+    </div>
+    
+
+
+    <!-- 友情链接 -->
+    
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">友情链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://www.vimiix.com/about/" target='_blank'>vimiix</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://zyan.cc/" target='_blank'>张宴de博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://blog.jamespan.me/" target='_blank'>Jame&#39;s blog</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://www.opqnext.com/" target='_blank'>郭贰小姐的微博</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://rango.swoole.com/" target='_blank'>韩天峰(Rango)的博客</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+    
+
+</aside>
+
+            
+            <section id="main"><article id="post-redis_vs_mem" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            redis vs memecached
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/12/03/redis_vs_mem/">
+            <time datetime="2016-12-03T11:13:39.000Z" itemprop="datePublished">2016-12-03</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/数据库/">数据库</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/数据库/nosql/">nosql</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tagcloud/memcached/">memcached</a>, <a class="tag-link" href="/tagcloud/nosql/">nosql</a>, <a class="tag-link" href="/tagcloud/redis/">redis</a>
+    </div>
+
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>Redis 是由来自意大利西西里岛的Salvatore Sanfilippo开发的一款开源的，使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库。</p>
+<p>这里不得不说一个勤奋的作者对一款开源软件是一件很重要的事，时至今日，与前辈memcached相比，Redis在大多数方面已经完成了全面的超越。</p>
+<p>下面摘录一段在stackoverflow上看到关于redis的文章。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><p>Redis is more powerful, more popular, and better supported than memcached. Memcached can only do a small fraction of the things Redis can do. Redis is better even where their features overlap.<br>For anything new, use Redis.</p>
+<blockquote>
+<p>Redis拥有着更加强大和丰富的功能</p>
+</blockquote>
+<h3 id="Memcached-vs-Redis-Direct-Comparison"><a href="#Memcached-vs-Redis-Direct-Comparison" class="headerlink" title="Memcached vs Redis: Direct Comparison"></a>Memcached vs Redis: Direct Comparison</h3><p>Both tools are powerful, fast, in-memory data stores that are useful as a cache. Both can help speed up your application by caching database results, HTML fragments, or anything else that might be expensive to generate.</p>
+<blockquote>
+<p>两者都是通过使用内存缓存，来帮助你的网站提速</p>
+</blockquote>
+<h3 id="Points-to-Consider"><a href="#Points-to-Consider" class="headerlink" title="Points to Consider"></a>Points to Consider</h3><pre><code>1. Read/write speed: Both are extremely fast. Benchmarks vary by workload, versions, and many other factors but generally show redis to be as fast or almost as fast as memcached. I recommend redis, but not because memcached is slow. It&apos;s not.
+2. Memory usage: Redis is better.
+    memcached: You specify the cache size and as you insert items the daemon quickly grows to a little more than this size. There is never really a way to reclaim any of that space, short of restarting memcached. All your keys could be expired, you could flush the database, and it would still use the full chunk of RAM you configured it with.
+    redis: Setting a max size is up to you. Redis will never use more than it has to and will give you back memory it is no longer using.
+    I stored 100,000 ~2KB strings (~200MB) of random sentences into both. Memcached RAM usage grew to ~225MB. Redis RAM usage grew to ~228MB. After flushing both, redis dropped to ~29MB and memcached stayed at ~225MB. They are similarly efficient in how they store data, but only one is capable of reclaiming it.
+3. Disk I/O dumping: A clear win for redis since it does this by default and has very configurable persistence. Memcached has no mechanisms for dumping to disk without 3rd party tools.
+4. Scaling: Both give you tons of headroom before you need more than a single instance as a cache. Redis includes tools to help you go beyond that while memcached does not.
+</code></pre><blockquote>
+<p>我们需要从以下4点来分析使用redis的优势</p>
+<ol>
+<li>读写速度</li>
+<li>内存使用</li>
+<li>磁盘I/O dumping</li>
+<li>缩放</li>
+</ol>
+</blockquote>
+<h3 id="memcached"><a href="#memcached" class="headerlink" title="memcached"></a>memcached</h3><p>Memcached is a simple volatile cache server. It allows you to store key/value pairs where the value is limited to being a string up to 1MB.</p>
+<p>It’s good at this, but that’s all it does. You can access those values by their key at extremely high speed, often saturating available network or even memory bandwidth.</p>
+<p>When you restart memcached your data is gone. This is fine for a cache. You shouldn’t store anything important there.</p>
+<p>If you need high performance or high availability there are 3rd party tools, products, and services available.</p>
+<h3 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h3><p>Redis can do the same jobs as memcached can, and can do them better.</p>
+<p>Redis can act as a cache as well. It can store key/value pairs too. In redis they can even be up to 512MB.</p>
+<p>You can turn off persistence and it will happily lose your data on restart too. If you want your cache to survive restarts it lets you do that as well. In fact, that’s the default.</p>
+<p>It’s super fast too, often limited by network or memory bandwidth.</p>
+<p>If one instance of redis/memcached isn’t enough performance for your workload, redis is the clear choice. Redis includes cluster support and comes with high availability tools (redis-sentinel) right “in the box”. Over the past few years redis has also emerged as the clear leader in 3rd party tooling. Companies like Redis Labs, Amazon, and others offer many useful redis tools and services. The ecosystem around redis is much larger. The number of large scale deployments is now likely greater than for memcached.</p>
+<blockquote>
+<p>从支持数据大小，速度，以及第三方支持来看两者的区别</p>
+</blockquote>
+<h3 id="The-Redis-Superset"><a href="#The-Redis-Superset" class="headerlink" title="The Redis Superset"></a>The Redis Superset</h3><p>Redis is more than a cache. It is an in-memory data structure server. Below you will find a quick overview of things Redis can do beyond being a simple key/value cache like memcached. Most of redis’ features are things memcached cannot do.</p>
+<blockquote>
+<p>Redis不仅仅作为一个cache来使用，他还是一个能够永久保存数据的NoSQL数据库</p>
+</blockquote>
+<h3 id="Documentation"><a href="#Documentation" class="headerlink" title="Documentation"></a>Documentation</h3><p>Redis is better documented than memcached. While this can be subjective, it seems to be more and more true all the time.</p>
+<p>redis.io is a fantastic easily navigated resource. It lets you try redis in the browser and even gives you live interactive examples with each command in the docs.</p>
+<p>There are now 2x as many stackoverflow results for redis as memcached. 2x as many Google results. More readily accessible examples in more languages. More active development. More active client development. These measurements might not mean much individually, but in combination they paint a clear picture that support and documentation for redis is greater and much more up-to-date.</p>
+<blockquote>
+<p>Redis有着更丰富的文档支持</p>
+</blockquote>
+<h3 id="Persistence"><a href="#Persistence" class="headerlink" title="Persistence"></a>Persistence</h3><p>By default redis persists your data to disk using a mechanism called snapshotting. If you have enough RAM available it’s able to write all of your data to disk with almost no performance degradation. It’s almost free!</p>
+<p>In snapshot mode there is a chance that a sudden crash could result in a small amount of lost data. If you absolutely need to make sure no data is ever lost, don’t worry, redis has your back there too with AOF (Append Only File) mode. In this persistence mode data can be synced to disk as it is written. This can reduce maximum write throughput to however fast your disk can write, but should still be quite fast.</p>
+<p>There are many configuration options to fine tune persistence if you need, but the defaults are very sensible. These options make it easy to setup redis as a safe, redundant place to store data. It is a real database.</p>
+<h3 id="Many-Data-Types"><a href="#Many-Data-Types" class="headerlink" title="Many Data Types"></a>Many Data Types</h3><p>Memcached is limited to strings, but Redis is a data structure server that can serve up many different data types. It also provides the commands you need to make the most of those data types.</p>
+<h4 id="Strings-commands"><a href="#Strings-commands" class="headerlink" title="Strings (commands)"></a>Strings (commands)</h4><p>Simple text or binary values that can be up to 512MB in size. This is the only data type redis and memcached share, though memcached strings are limited to 1MB.</p>
+<p>Redis gives you more tools for leveraging this datatype by offering commands for bitwise operations, bit-level manipulation, floating point increment/decrement support, range queries, and multi-key operations. Memcached doesn’t support any of that.</p>
+<p>Strings are useful for all sorts of use cases, which is why memcached is fairly useful with this data type alone.</p>
+<h4 id="Hashes-commands"><a href="#Hashes-commands" class="headerlink" title="Hashes (commands)"></a>Hashes (commands)</h4><p>Hashes are sort of like a key value store within a key value store. They map between string fields and string values. Field-&gt;value maps using a hash are slightly more space efficient than key-&gt;value maps using regular strings.</p>
+<p>Hashes are useful as a namespace, or when you want to logically group many keys. With a hash you can grab all the members efficiently, expire all the members together, delete all the members together, etc. Great for any use case where you have several key/value pairs that need to grouped.</p>
+<p>One example use of a hash is for storing user profiles between applications. A redis hash stored with the user ID as the key will allow you to store as many bits of data about a user as needed while keeping them stored under a single key. The advantage of using a hash instead of serializing the profile into a string is that you can have different applications read/write different fields within the user profile without having to worry about one app overriding changes made by others (which can happen if you serialize stale data).</p>
+<h4 id="Lists-commands"><a href="#Lists-commands" class="headerlink" title="Lists (commands)"></a>Lists (commands)</h4><p>Redis lists are ordered collections of strings. They are optimized for inserting, reading, or removing values from the top or bottom (aka: left or right) of the list.</p>
+<p>Redis provides many commands for leveraging lists, including commands to push/pop items, push/pop between lists, truncate lists, perform range queries, etc.</p>
+<p>Lists make great durable, atomic, queues. These work great for job queues, logs, buffers, and many other use cases.</p>
+<h4 id="Sets-commands"><a href="#Sets-commands" class="headerlink" title="Sets (commands)"></a>Sets (commands)</h4><p>Sets are unordered collections of unique values. They are optimized to let you quickly check if a value is in the set, quickly add/remove values, and to measure overlap with other sets.</p>
+<p>These are great for things like access control lists, unique visitor trackers, and many other things. Most programming languages have something similar (usually called a Set). This is like that, only distributed.</p>
+<p>Redis provides several commands to manage sets. Obvious ones like adding, removing, and checking the set are present. So are less obvious commands like popping/reading a random item and commands for performing unions and intersections with other sets.</p>
+<h4 id="Sorted-Sets-commands"><a href="#Sorted-Sets-commands" class="headerlink" title="Sorted Sets (commands)"></a>Sorted Sets (commands)</h4><p>Sorted Sets are also collections of unique values. These ones, as the name implies, are ordered. They are ordered by a score, then lexicographically.</p>
+<p>This data type is optimized for quick lookups by score. Getting the highest, lowest, or any range of values in between is extremely fast.</p>
+<p>If you add users to a sorted set along with their high score, you have yourself a perfect leader-board. As new high scores come in, just add them to the set again with their high score and it will re-order your leader-board. Also great for keeping track of the last time users visited and who is active in your application.</p>
+<p>Storing values with the same score causes them to be ordered lexicographically (think alphabetically). This can be useful for things like auto-complete features.</p>
+<p>Many of the sorted set commands are similar to commands for sets, sometimes with an additional score parameter. Also included are commands for managing scores and querying by score.</p>
+<blockquote>
+<p>Redis丰富的数据类型支持</p>
+<h3 id="Geo"><a href="#Geo" class="headerlink" title="Geo"></a>Geo</h3></blockquote>
+<p>Redis has several commands for storing, retrieving, and measuring geographic data. This includes radius queries and measuring distances between points.</p>
+<p>Technically geographic data in redis is stored within sorted sets, so this isn’t a truly separate data type. It is more of an extension on top of sorted sets.</p>
+<h3 id="Bitmap-and-HyperLogLog"><a href="#Bitmap-and-HyperLogLog" class="headerlink" title="Bitmap and HyperLogLog"></a>Bitmap and HyperLogLog</h3><p>Like geo, these aren’t completely separate data types. These are commands that allow you to treat string data as if it’s either a bitmap or a hyperloglog.</p>
+<p>Bitmaps are what the bit-level operators I referenced under Strings are for. This data type was the basic building block for reddit’s recent collaborative art project: r/Place.</p>
+<p>HyperLogLog allows you to use a constant extremely small amount of space to count almost unlimited unique values with shocking accuracy. Using only ~16KB you could efficiently count the number of unique visitors to your site, even if that number is in the millions.</p>
+<h3 id="Transactions-and-Atomicity"><a href="#Transactions-and-Atomicity" class="headerlink" title="Transactions and Atomicity"></a>Transactions and Atomicity</h3><p>Commands in redis are atomic, meaning you can be sure that as soon as you write a value to redis that value is visible to all clients connected to redis. There is no wait for that value to propagate. Technically memcached is atomic as well, but with redis adding all this functionality beyond memcached it is worth noting and somewhat impressive that all these additional data types and features are also atomic.</p>
+<p>While not quite the same as transactions in relational databases, redis also has transactions that use “optimistic locking” (WATCH/MULTI/EXEC).</p>
+<h3 id="Pipelining"><a href="#Pipelining" class="headerlink" title="Pipelining"></a>Pipelining</h3><p>Redis provides a feature called ‘pipelining’. If you have many redis commands you want to execute you can use pipelining to send them to redis all-at-once instead of one-at-a-time.</p>
+<p>Normally when you execute a command to either redis or memcached, each command is a separate request/response cycle. With pipelining, redis can buffer several commands and execute them all at once, responding with all of the responses to all of your commands in a single reply.</p>
+<p>This can allow you to achieve even greater throughput on bulk importing or other actions that involve lots of commands.</p>
+<h3 id="Pub-Sub"><a href="#Pub-Sub" class="headerlink" title="Pub/Sub"></a>Pub/Sub</h3><p>Redis has commands dedicated to pub/sub functionality, allowing redis to act as a high speed message broadcaster. This allows a single client to publish messages to many other clients connected to a channel.</p>
+<p>Redis does pub/sub as well as almost any tool. Dedicated message brokers like RabbitMQ may have advantages in certain areas, but the fact that the same server can also give you persistent durable queues and other data structures your pub/sub workloads likely need, Redis will often prove to be the best and most simple tool for the job.</p>
+<h3 id="Lua-Scripting"><a href="#Lua-Scripting" class="headerlink" title="Lua Scripting"></a>Lua Scripting</h3><p>You can kind of think of lua scripts like redis’s own SQL or stored procedures. It’s both more and less than that, but the analogy mostly works.</p>
+<p>Maybe you have complex calculations you want redis to perform. Maybe you can’t afford to have your transactions roll back and need guarantees every step of a complex process will happen atomically. These problems and many more can be solved with lua scripting.</p>
+<p>The entire script is executed atomically, so if you can fit your logic into a lua script you can often avoid messing with optimistic locking transactions.</p>
+<h3 id="Scaling"><a href="#Scaling" class="headerlink" title="Scaling"></a>Scaling</h3><p>As mentioned above, redis includes built in support for clustering and is bundled with its own high availability tool called redis-sentinel.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Without hesitation I would recommend redis over memcached for any new projects, or existing projects that don’t already use memcached.</p>
+<p>The above may sound like I don’t like memcached. On the contrary: it is a powerful, simple, stable, mature, and hardened tool. There are even some use cases where it’s a little faster than redis. I love memcached. I just don’t think it makes much sense for future development.</p>
+<p>Redis does everything memcached does, often better. Any performance advantage for memcached is minor and workload specific. There are also workloads for which redis will be faster, and many more workloads that redis can do which memcached simply can’t. The tiny performance differences seem minor in the face of the giant gulf in functionality and the fact that both tools are so fast and efficient they may very well be the last piece of your infrastructure you’ll ever have to worry about scaling.</p>
+<p>There is only one scenario where memcached makes more sense: where memcached is already in use as a cache. If you are already caching with memcached then keep using it, if it meets your needs. It is likely not worth the effort to move to redis and if you are going to use redis just for caching it may not offer enough benefit to be worth your time. If memcached isn’t meeting your needs, then you should probably move to redis. This is true whether you need to scale beyond memcached or you need additional functionality.</p>
+<h3 id="所感"><a href="#所感" class="headerlink" title="所感"></a>所感</h3><p>翻译无能啊，英文水平略显不足，还有就是专业纵深也不够，一些名词直接看不懂是什么意思，文章看到后半段的时候，脑子一片空白，虽然看得懂小半的意思，但是却不能理解具体的区别作用。</p>
+<p>还有文章作者最后的一句话，I love memcached. I just don’t think it makes much sense for future development.莫名的让人有些难言的干涩，也摘下来共勉吧。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/01/17/phpspider_1/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más nuevo</strong>
+            <div class="article-nav-title">
+                
+                    使用phpspider开发的PHP爬虫
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/07/15/zfenbu_1/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más viejo</strong>
+            <div class="article-nav-title">分布式服务器集群架构方案思考</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments"><div id="container"></div>
+
+	<div id="commentContainer"></div>
+
+
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最近发表</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/06/28/futrue_road/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/css/images/fuck_t_1.jpg)" alt="LinuxCon引发的思考" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/闲扯/">闲扯</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/闲扯/职业思考/">职业思考</a></p>
+                            <p class="item-title"><a href="/2017/06/28/futrue_road/" class="title">LinuxCon引发的思考</a></p>
+                            <p class="item-date"><time datetime="2017-06-28T13:54:05.000Z" itemprop="datePublished">2017-06-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/03/02/cache_1/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/css/images/cache_t_1.gif)" alt="网站设计中的cache技术" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/php/">php</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/php/静态技术/">静态技术</a></p>
+                            <p class="item-title"><a href="/2017/03/02/cache_1/" class="title">网站设计中的cache技术</a></p>
+                            <p class="item-date"><time datetime="2017-03-02T13:37:14.000Z" itemprop="datePublished">2017-03-02</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/01/17/phpspider_1/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/css/images/phpspider_t_1.jpg)" alt="使用phpspider开发的PHP爬虫" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/数据技术/">数据技术</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/数据技术/爬虫/">爬虫</a></p>
+                            <p class="item-title"><a href="/2017/01/17/phpspider_1/" class="title">使用phpspider开发的PHP爬虫</a></p>
+                            <p class="item-date"><time datetime="2017-01-17T14:55:00.000Z" itemprop="datePublished">2017-01-17</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/php/">php</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/php/静态技术/">静态技术</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/分布式部署/">分布式部署</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全/">安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/工具/git/">git</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/nosql/">nosql</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据技术/">数据技术</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据技术/爬虫/">爬虫</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法学习/">算法学习</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/闲扯/">闲扯</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/闲扯/职业思考/">职业思考</a><span class="category-list-count">1</span></li></ul></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2017 Zeco<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    <div id="container"></div>
+
+	<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+	<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+	<script>
+		var gitment = new Gitment({
+			owner: '25541570',
+			repo: 'charlesmade/charlesmade.github.io',
+			oauth: {
+				client_id: 'fee259b19d08426db9e3',
+				client_secret: 'c6476b23ed78d7e2c14c3bcd490c795764310223',
+			},
+		})
+		gitment.render('commentContainer')
+	</script>
+	
+
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
