@@ -1018,11 +1018,68 @@ imagick_ scale 169 files: 3.2625908851624s
         
         <tags>
             
-            <tag> redis </tag>
-            
             <tag> nosql </tag>
             
+            <tag> redis </tag>
+            
             <tag> memcached </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[php+salt第二弹]]></title>
+      <url>/2016/09/16/php+salt_2/</url>
+      <content type="html"><![CDATA[<p>之前说过加salt和MD5结合加密，当然加密方式不可能仅仅MD5这单一的加密算法，这里是一些更加详细的整理。</p>
+<hr>
+<h3 id="SHA256-和-SHA512"><a href="#SHA256-和-SHA512" class="headerlink" title="SHA256 和 SHA512"></a>SHA256 和 SHA512</h3><p>其实跟前面的MD5同期的还有一个SHA1加密方式的，不过也是算法比较简单，所以这里就一笔带过吧。而这里即将要说到的SHA256 和 SHA512都是来自于SHA2家族的加密函数，看名字可能你就猜的出来了，这两个加密方式分别生成256和512比特长度的hash字串。</p>
+<p>他们的使用方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;?php </div><div class="line">$password = hash(&quot;sha256&quot;, $password);</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>PHP内置了hash()函数，你只需要将加密方式传给hash()函数就好了。你可以直接指明sha256, sha512, md5, sha1等加密方式。</p>
+<hr>
+<h3 id="Salt盐"><a href="#Salt盐" class="headerlink" title="Salt盐"></a>Salt盐</h3><p>在加密的过程，我们还有一个非常常见的小伙伴：盐值。对，我们在加密的时候其实会给加密的字符串添加一个额外的字符串，以达到提高一定安全的目的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">function generateHashWithSalt($password) &#123;</div><div class="line">    $intermediateSalt = md5(uniqid(rand(), true));</div><div class="line">    $salt = substr($intermediateSalt, 0, 6);</div><div class="line">    return hash(&quot;sha256&quot;, $password . $salt);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="Bcrypt"><a href="#Bcrypt" class="headerlink" title="Bcrypt"></a>Bcrypt</h3><p>如果让我来建议一种加密方式的话，Bcrypt可能是我给你推荐的最低要求了，因为我会强烈推荐你后面会说到的Hashing API，不过Bcrypt也不失为一种比较不错的加密方式了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">function generateHash($password) &#123;</div><div class="line">    if (defined(&quot;CRYPT_BLOWFISH&quot;) &amp;&amp; CRYPT_BLOWFISH) &#123;</div><div class="line">        $salt = &apos;$2y$11$&apos; . substr(md5(uniqid(rand(), true)), 0, 22);</div><div class="line">        return crypt($password, $salt);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Bcrypt 其实就是Blowfish和crypt()函数的结合，我们这里通过CRYPT_BLOWFISH判断Blowfish是否可用，然后像上面一样生成一个盐值，不过这里需要注意的是，crypt()的盐值必须以$2a$或者$2y$开头，详细资料可以参考下面的链接：<br><a href="http://php.net/security/crypt_blowfish.php" target="_blank" rel="external">crypt_blowfish</a><br>更多资料可以看这里：<br><a href="http://php.net/manual/en/function.crypt.php" target="_blank" rel="external">crypt</a></p>
+<hr>
+<h3 id="★Password-Hashing-API"><a href="#★Password-Hashing-API" class="headerlink" title="★Password Hashing API"></a>★Password Hashing API</h3><p>这里才是我们的重头戏，Password Hashing API是<span style="color:red">PHP 5.5</span>之后才有的新特性，它主要是提供下面几个函数供我们使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">password_hash() – 对密码加密.</div><div class="line">password_verify() – 验证已经加密的密码，检验其hash字串是否一致.</div><div class="line">password_needs_rehash() – 给密码重新加密.</div><div class="line">password_get_info() – 返回加密算法的名称和一些相关信息.</div></pre></td></tr></table></figure>
+<p>虽然说crypt()函数在使用上已足够，但是password_hash()不仅可以使我们的代码更加简短，而且还在安全方面给了我们更好的保障，所以，现在PHP的官方都是推荐这种方式来加密用户的密码，很多流行的框架比如Laravel就是用的这种加密方式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">$hash = password_hash($passwod, PASSWORD_DEFAULT);</div></pre></td></tr></table></figure>
+<p>对，就是这么简单，一行代码，All done。</p>
+<p>PASSWORD_DEFAULT目前使用的就是Bcrypt，所以在上面我会说推荐这个，不过因为Password Hashing API做得更好了，我必须郑重地想你推荐Password Hashing API。这里需要注意的是，如果你代码使用的都是PASSWORD_DEFAULT加密方式，那么在数据库的表中，password字段就得设置超过60个字符长度，你也可以使用PASSWORD_BCRYPT，这个时候，加密后字串总是60个字符长度。</p>
+<p>这里使用password_hash()你完全可以不提供盐值(salt)和 消耗值 (cost)，你可以将后者理解为一种性能的消耗值，cost越大，加密算法越复杂，消耗的内存也就越大。当然，如果你需要指定对应的盐值和消耗值，你可以这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">$options = [</div><div class="line">    &apos;salt&apos; =&gt; custom_function_for_salt(), //write your own code to generate a suitable salt</div><div class="line">    &apos;cost&apos; =&gt; 12 // the default cost is 10</div><div class="line">];</div><div class="line">$hash = password_hash($password, PASSWORD_DEFAULT, $options);</div></pre></td></tr></table></figure>
+<p>密码加密过后，我们需要对密码进行验证，以此来判断用户输入的密码是否正确：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">if (password_verify($password, $hash)) &#123;</div><div class="line">    // Pass</div><div class="line">&#125;</div><div class="line">else &#123;</div><div class="line">    // Invalid</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>很简单的吧，直接使用password_verify就可以对我们之前加密过的字符串（存在数据库中）进行验证了。</p>
+<p>然而，如果有时候我们需要更改我们的加密方式，如某一天我们突然想更换一下盐值或者提高一下消耗值，我们这时候就要使用到password_needs_rehash()函数了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">if (password_needs_rehash($hash, PASSWORD_DEFAULT, [&apos;cost&apos; =&gt; 12])) &#123;</div><div class="line">    // cost change to 12</div><div class="line">    $hash = password_hash($password, PASSWORD_DEFAULT, [&apos;cost&apos; =&gt; 12]);</div><div class="line"> </div><div class="line">    // don&apos;t forget to store the new hash!</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>只有这样，PHP的Password Hashing API才会知道我们重现更换了加密方式，这样的主要目的就是为了后面的密码验证。</p>
+<p>简单地说一下password_get_info()，这个函数一般可以看到下面三个信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">algo – 算法实例</div><div class="line">algoName – 算法名字</div><div class="line">options – 加密时候的可选参数</div></pre></td></tr></table></figure>
+<p>本文到此结束，那么…go!</p>
+<p>参考：<a href="https://www.laravist.com/blog/post/php-password-hash-in-the-right-way" target="_blank" rel="external">laravist</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> 安全 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> php </tag>
+            
+            <tag> verify </tag>
+            
+            <tag> hash api </tag>
             
         </tags>
         
@@ -1066,7 +1123,9 @@ imagick_ scale 169 files: 3.2625908851624s
             
             <tag> php </tag>
             
-            <tag> swoole，网络通信 </tag>
+            <tag> swoole </tag>
+            
+            <tag> 网络通信 </tag>
             
         </tags>
         
@@ -1308,7 +1367,9 @@ imagick_ scale 169 files: 3.2625908851624s
         
         <tags>
             
-            <tag> 加密 </tag>
+            <tag> php </tag>
+            
+            <tag> verify </tag>
             
             <tag> md5 </tag>
             
