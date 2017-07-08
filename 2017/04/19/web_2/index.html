@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>进击的分布式架构(II)[转] | Zeco&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Web系统的缓存机制的建立和优化刚刚我们讲完了Web系统的外部网络环境，现在我们开始关注我们Web系统自身的性能问题。我们的Web站点随着访问量的上升，会遇到很多的挑战，解决这些问题不仅仅是扩容机器这么简单，建立和使用合适的缓存机制才是根本。 最开始，我们的Web系统架构可能是这样的，每个环节，都可能只有1台机器。">
+<meta name="keywords" content="负载均衡,缓存机制,异地部署">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进击的分布式架构(II)[转]">
+<meta property="og:url" content="http://zeco.oschina.io/2017/04/19/web_2/index.html">
+<meta property="og:site_name" content="Zeco&#39;s blog">
+<meta property="og:description" content="Web系统的缓存机制的建立和优化刚刚我们讲完了Web系统的外部网络环境，现在我们开始关注我们Web系统自身的性能问题。我们的Web站点随着访问量的上升，会遇到很多的挑战，解决这些问题不仅仅是扩容机器这么简单，建立和使用合适的缓存机制才是根本。 最开始，我们的Web系统架构可能是这样的，每个环节，都可能只有1台机器。">
+<meta property="og:image" content="http://zeco.oschina.io/css/images/web_t_1.jpg">
+<meta property="og:updated_time" content="2017-07-08T15:17:38.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="进击的分布式架构(II)[转]">
+<meta name="twitter:description" content="Web系统的缓存机制的建立和优化刚刚我们讲完了Web系统的外部网络环境，现在我们开始关注我们Web系统自身的性能问题。我们的Web站点随着访问量的上升，会遇到很多的挑战，解决这些问题不仅仅是扩容机器这么简单，建立和使用合适的缓存机制才是根本。 最开始，我们的Web系统架构可能是这样的，每个环节，都可能只有1台机器。">
+<meta name="twitter:image" content="http://zeco.oschina.io/css/images/web_t_1.jpg">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Zeco</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于作者</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/wangshan.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Entradas',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categorias',
+            TAGS: 'Etiquetas',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于作者</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/wangshan.jpg" />
+            <h2 id="name">張ふ文</h2>
+            <h3 id="title">Say no to the world &amp; your life</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>心之所向，无不可往</span>
+            <a id="follow" target="_blank" href="https://github.com/charlesmade/">关注</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                20
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                29
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/charlesmade/" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="weibo" class=tooltip>
+                            <i class="fa fa-weibo"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="qq" class=tooltip>
+                            <i class="fa fa-qq"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+
+    <!-- 标签云 -->
+    
+    <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div id="myCanvasContainer" class="widget tagcloud">
+            <canvas width="250" height="250" id="resCanvas" style="width=100%">
+                <a href="/tagcloud/Algorithm/" style="font-size: 10px;">Algorithm</a> <a href="/tagcloud/about-futrue/" style="font-size: 10px;">about futrue</a> <a href="/tagcloud/blog/" style="font-size: 10px;">blog</a> <a href="/tagcloud/cache/" style="font-size: 10px;">cache</a> <a href="/tagcloud/git/" style="font-size: 10px;">git</a> <a href="/tagcloud/github/" style="font-size: 10px;">github</a> <a href="/tagcloud/hash-api/" style="font-size: 10px;">hash api</a> <a href="/tagcloud/hexo/" style="font-size: 10px;">hexo</a> <a href="/tagcloud/md5/" style="font-size: 10px;">md5</a> <a href="/tagcloud/memcached/" style="font-size: 10px;">memcached</a> <a href="/tagcloud/nosql/" style="font-size: 10px;">nosql</a> <a href="/tagcloud/php/" style="font-size: 20px;">php</a> <a href="/tagcloud/redis/" style="font-size: 13.33px;">redis</a> <a href="/tagcloud/swoole/" style="font-size: 10px;">swoole</a> <a href="/tagcloud/verify/" style="font-size: 13.33px;">verify</a> <a href="/tagcloud/分布式/" style="font-size: 10px;">分布式</a> <a href="/tagcloud/字段优化/" style="font-size: 10px;">字段优化</a> <a href="/tagcloud/底层性能/" style="font-size: 13.33px;">底层性能</a> <a href="/tagcloud/延时设计/" style="font-size: 10px;">延时设计</a> <a href="/tagcloud/异地部署/" style="font-size: 16.67px;">异地部署</a> <a href="/tagcloud/拿来的东西/" style="font-size: 13.33px;">拿来的东西</a> <a href="/tagcloud/排序/" style="font-size: 10px;">排序</a> <a href="/tagcloud/数据库引擎/" style="font-size: 10px;">数据库引擎</a> <a href="/tagcloud/爬虫/" style="font-size: 10px;">爬虫</a> <a href="/tagcloud/环形队列/" style="font-size: 10px;">环形队列</a> <a href="/tagcloud/缓存机制/" style="font-size: 16.67px;">缓存机制</a> <a href="/tagcloud/网络通信/" style="font-size: 10px;">网络通信</a> <a href="/tagcloud/表设计/" style="font-size: 10px;">表设计</a> <a href="/tagcloud/负载均衡/" style="font-size: 16.67px;">负载均衡</a>
+            </canvas>
+        </div>
+    </div>
+    
+
+
+    <!-- 友情链接 -->
+    
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">友情链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://www.vimiix.com/about/" target='_blank'>vimiix</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://zyan.cc/" target='_blank'>张宴de博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://blog.jamespan.me/" target='_blank'>Jame&#39;s blog</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://www.opqnext.com/" target='_blank'>郭贰小姐的微博</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://rango.swoole.com/" target='_blank'>韩天峰(Rango)的博客</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+    
+
+</aside>
+
+            
+            <section id="main"><article id="post-web_2" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            进击的分布式架构(II)[转]
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/04/19/web_2/">
+            <time datetime="2017-04-18T16:14:02.000Z" itemprop="datePublished">2017-04-19</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/架构/">架构</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tagcloud/异地部署/">异地部署</a>, <a class="tag-link" href="/tagcloud/缓存机制/">缓存机制</a>, <a class="tag-link" href="/tagcloud/负载均衡/">负载均衡</a>
+    </div>
+
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h3 id="Web系统的缓存机制的建立和优化"><a href="#Web系统的缓存机制的建立和优化" class="headerlink" title="Web系统的缓存机制的建立和优化"></a>Web系统的缓存机制的建立和优化</h3><p>刚刚我们讲完了Web系统的外部网络环境，现在我们开始关注我们Web系统自身的性能问题。我们的Web站点随着访问量的上升，会遇到很多的挑战，解决这些问题不仅仅是扩容机器这么简单，建立和使用合适的缓存机制才是根本。</p>
+<p>最开始，我们的Web系统架构可能是这样的，每个环节，都可能只有1台机器。 </p>
+<p><img src="/css/images/web_11.jpg" alt=""></p>
+<a id="more"></a>
+<p>我们从最根本的数据存储开始看。</p>
+<hr>
+<h4 id="一、-MySQL数据库内部缓存使用"><a href="#一、-MySQL数据库内部缓存使用" class="headerlink" title="一、 MySQL数据库内部缓存使用"></a>一、 MySQL数据库内部缓存使用</h4><p>MySQL的缓存机制，就从先从MySQL内部开始，下面的内容将以最常见的InnoDB存储引擎为主。</p>
+<h5 id="1-建立恰当的索引"><a href="#1-建立恰当的索引" class="headerlink" title="1. 建立恰当的索引"></a>1. 建立恰当的索引</h5><p>最简单的是建立索引，索引在表数据比较大的时候，起到快速检索数据的作用，但是成本也是有的。首先，占用了一定的磁盘空间，其中组合索引最突出，使用需要谨慎，它产生的索引甚至会比源数据更大。其次，建立索引之后的数据insert/update/delete等操作，因为需要更新原来的索引，耗时会增加。当然，实际上我们的系统从总体来说，是以select查询操作居多，因此，索引的使用仍然对系统性能有大幅提升的作用。</p>
+<h5 id="2-数据库连接线程池缓存"><a href="#2-数据库连接线程池缓存" class="headerlink" title="2. 数据库连接线程池缓存"></a>2. 数据库连接线程池缓存</h5><p>如果，每一个数据库操作请求都需要创建和销毁连接的话，对数据库来说，无疑也是一种巨大的开销。为了减少这类型的开销，可以在MySQL中配置thread_cache_size来表示保留多少线程用于复用。线程不够的时候，再创建，空闲过多的时候，则销毁。 </p>
+<p><img src="/css/images/web_12.jpg" alt=""></p>
+<p>其实，还有更为激进一点的做法，使用pconnect（数据库长连接），线程一旦创建在很长时间内都保持着。但是，在访问量比较大，机器比较多的情况下，这种用法很可能会导致“数据库连接数耗尽”，因为建立连接并不回收，最终达到数据库的max_connections（最大连接数）。因此，长连接的用法通常需要在CGI和MySQL之间实现一个“连接池”服务，控制CGI机器“盲目”创建连接数。</p>
+<p><img src="/css/images/web_13.jpg" alt=""></p>
+<p>建立数据库连接池服务，有很多实现的方式，PHP的话，我推荐使用swoole（PHP的一个网络通讯拓展）来实现。</p>
+<h5 id="3-Innodb缓存设置（innodb-buffer-pool-size）"><a href="#3-Innodb缓存设置（innodb-buffer-pool-size）" class="headerlink" title="3. Innodb缓存设置（innodb_buffer_pool_size）"></a>3. Innodb缓存设置（innodb_buffer_pool_size）</h5><p>innodb_buffer_pool_size这是个用来保存索引和数据的内存缓存区，如果机器是MySQL独占的机器，一般推荐为机器物理内存的80%。在取表数据的场景中，它可以减少磁盘IO。一般来说，这个值设置越大，cache命中率会越高。</p>
+<h5 id="4-分库-分表-分区。"><a href="#4-分库-分表-分区。" class="headerlink" title="4. 分库/分表/分区。"></a>4. 分库/分表/分区。</h5><p>MySQL数据库表一般承受数据量在百万级别，再往上增长，各项性能将会出现大幅度下降，因此，当我们预见数据量会超过这个量级的时候，建议进行分库/分表/分区等操作。最好的做法，是服务在搭建之初就设计为分库分表的存储模式，从根本上杜绝中后期的风险。不过，会牺牲一些便利性，例如列表式的查询，同时，也增加了维护的复杂度。不过，到了数据量千万级别或者以上的时候，我们会发现，它们都是值得的。 </p>
+<hr>
+<h4 id="二、-MySQL数据库多台服务搭建"><a href="#二、-MySQL数据库多台服务搭建" class="headerlink" title="二、 MySQL数据库多台服务搭建"></a>二、 MySQL数据库多台服务搭建</h4><p>1台MySQL机器，实际上是高风险的单点，因为如果它挂了，我们Web服务就不可用了。而且，随着Web系统访问量继续增加，终于有一天，我们发现1台MySQL服务器无法支撑下去，我们开始需要使用更多的MySQL机器。当引入多台MySQL机器的时候，很多新的问题又将产生。</p>
+<h5 id="1-建立MySQL主从，从库作为备份"><a href="#1-建立MySQL主从，从库作为备份" class="headerlink" title="1. 建立MySQL主从，从库作为备份"></a>1. 建立MySQL主从，从库作为备份</h5><p>这种做法纯粹为了解决“单点故障”的问题，在主库出故障的时候，切换到从库。不过，这种做法实际上有点浪费资源，因为从库实际上被闲着了。</p>
+<p><img src="/css/images/web_14.jpg" alt=""></p>
+<h5 id="2-MySQL读写分离，主库写，从库读。"><a href="#2-MySQL读写分离，主库写，从库读。" class="headerlink" title="2. MySQL读写分离，主库写，从库读。"></a>2. MySQL读写分离，主库写，从库读。</h5><p>两台数据库做读写分离，主库负责写入类的操作，从库负责读的操作。并且，如果主库发生故障，仍然不影响读的操作，同时也可以将全部读写都临时切换到从库中（需要注意流量，可能会因为流量过大，把从库也拖垮）。</p>
+<p><img src="/css/images/web_15.jpg" alt=""> </p>
+<h5 id="3-主主互备。"><a href="#3-主主互备。" class="headerlink" title="3. 主主互备。"></a>3. 主主互备。</h5><p>两台MySQL之间互为彼此的从库，同时又是主库。这种方案，既做到了访问量的压力分流，同时也解决了“单点故障”问题。任何一台故障，都还有另外一套可供使用的服务。 </p>
+<p><img src="/css/images/web_16.jpg" alt=""></p>
+<p>不过，这种方案，只能用在两台机器的场景。如果业务拓展还是很快的话，可以选择将业务分离，建立多个主主互备。</p>
+<hr>
+<h4 id="三、-MySQL数据库机器之间的数据同步"><a href="#三、-MySQL数据库机器之间的数据同步" class="headerlink" title="三、 MySQL数据库机器之间的数据同步"></a>三、 MySQL数据库机器之间的数据同步</h4><p>每当我们解决一个问题，新的问题必然诞生在旧的解决方案上。当我们有多台MySQL，在业务高峰期，很可能出现两个库之间的数据有延迟的场景。并且，网络和机器负载等，也会影响数据同步的延迟。我们曾经遇到过，在日访问量接近1亿的特殊场景下，出现，从库数据需要很多天才能同步追上主库的数据。这种场景下，从库基本失去效用了。</p>
+<p>于是，解决同步问题，就是我们下一步需要关注的点。</p>
+<h5 id="1-MySQL自带多线程同步"><a href="#1-MySQL自带多线程同步" class="headerlink" title="1. MySQL自带多线程同步"></a>1. MySQL自带多线程同步</h5><p>MySQL5.6开始支持主库和从库数据同步，走多线程。但是，限制也是比较明显的，只能以库为单位。MySQL数据同步是通过binlog日志，主库写入到binlog日志的操作，是具有顺序的，尤其当SQL操作中含有对于表结构的修改等操作，对于后续的SQL语句操作是有影响的。因此，从库同步数据，必须走单进程。</p>
+<h5 id="2-自己实现解析binlog，多线程写入。"><a href="#2-自己实现解析binlog，多线程写入。" class="headerlink" title="2. 自己实现解析binlog，多线程写入。"></a>2. 自己实现解析binlog，多线程写入。</h5><p>以数据库的表为单位，解析binlog多张表同时做数据同步。这样做的话，的确能够加快数据同步的效率，但是，如果表和表之间存在结构关系或者数据依赖的话，则同样存在写入顺序的问题。这种方式，可用于一些比较稳定并且相对独立的数据表。</p>
+<p><img src="/css/images/web_17.jpg" alt=""> </p>
+<p>国内一线互联网公司，大部分都是通过这种方式，来加快数据同步效率。还有更为激进的做法，是直接解析binlog，忽略以表为单位，直接写入。但是这种做法，实现复杂，使用范围就更受到限制，只能用于一些场景特殊的数据库中（没有表结构变更，表和表之间没有数据依赖等特殊表）。 </p>
+<hr>
+<h4 id="四、-在Web服务器和数据库之间建立缓存"><a href="#四、-在Web服务器和数据库之间建立缓存" class="headerlink" title="四、 在Web服务器和数据库之间建立缓存"></a>四、 在Web服务器和数据库之间建立缓存</h4><p>实际上，解决大访问量的问题，不能仅仅着眼于数据库层面。根据“二八定律”，80%的请求只关注在20%的热点数据上。因此，我们应该建立Web服务器和数据库之间的缓存机制。这种机制，可以用磁盘作为缓存，也可以用内存缓存的方式。通过它们，将大部分的热点数据查询，阻挡在数据库之前。</p>
+<p><img src="/css/images/web_18.jpg" alt=""> </p>
+<h5 id="1-页面静态化"><a href="#1-页面静态化" class="headerlink" title="1. 页面静态化"></a>1. 页面静态化</h5><p>用户访问网站的某个页面，页面上的大部分内容在很长一段时间内，可能都是没有变化的。例如一篇新闻报道，一旦发布几乎是不会修改内容的。这样的话，通过CGI生成的静态html页面缓存到Web服务器的磁盘本地。除了第一次，是通过动态CGI查询数据库获取之外，之后都直接将本地磁盘文件返回给用户。</p>
+<p><img src="/css/images/web_19.jpg" alt=""></p>
+<p>在Web系统规模比较小的时候，这种做法看似完美。但是，一旦Web系统规模变大，例如当我有100台的Web服务器的时候。那样这些磁盘文件，将会有100份，这个是资源浪费，也不好维护。这个时候有人会想，可以集中一台服务器存起来，呵呵，不如看看下面一种缓存方式吧，它就是这样做的。</p>
+<h5 id="2-单台内存缓存"><a href="#2-单台内存缓存" class="headerlink" title="2. 单台内存缓存"></a>2. 单台内存缓存</h5><p>通过页面静态化的例子中，我们可以知道将“缓存”搭建在Web机器本机是不好维护的，会带来更多问题（实际上，通过PHP的apc拓展，可通过Key/value操作Web服务器的本机内存）。因此，我们选择搭建的内存缓存服务，也必须是一个独立的服务。</p>
+<p>内存缓存的选择，主要有redis/memcache。从性能上说，两者差别不大，从功能丰富程度上说，Redis更胜一筹。</p>
+<p><img src="/css/images/web_20.jpg" alt=""></p>
+<h5 id="3-内存缓存集群"><a href="#3-内存缓存集群" class="headerlink" title="3. 内存缓存集群"></a>3. 内存缓存集群</h5><p>当我们搭建单台内存缓存完毕，我们又会面临单点故障的问题，因此，我们必须将它变成一个集群。简单的做法，是给他增加一个slave作为备份机器。但是，如果请求量真的很多，我们发现cache命中率不高，需要更多的机器内存呢？因此，我们更建议将它配置成一个集群。例如，类似redis cluster。</p>
+<p>Redis cluster集群内的Redis互为多组主从，同时每个节点都可以接受请求，在拓展集群的时候比较方便。客户端可以向任意一个节点发送请求，如果是它的“负责”的内容，则直接返回内容。否则，查找实际负责Redis节点，然后将地址告知客户端，客户端重新请求。</p>
+<p><img src="/css/images/web_21.jpg" alt=""> </p>
+<p>对于使用缓存服务的客户端来说，这一切是透明的。</p>
+<p><img src="/css/images/web_22.jpg" alt=""></p>
+<p>内存缓存服务在切换的时候，是有一定风险的。从A集群切换到B集群的过程中，必须保证B集群提前做好“预热”（B集群的内存中的热点数据，应该尽量与A集群相同，否则，切换的一瞬间大量请求内容，在B集群的内存缓存中查找不到，流量直接冲击后端的数据库服务，很可能导致数据库宕机）。</p>
+<h5 id="4-减少数据库“写”"><a href="#4-减少数据库“写”" class="headerlink" title="4. 减少数据库“写”"></a>4. 减少数据库“写”</h5><p>上面的机制，都实现减少数据库的“读”的操作，但是，写的操作也是一个大的压力。写的操作，虽然无法减少，但是可以通过合并请求，来起到减轻压力的效果。这个时候，我们就需要在内存缓存集群和数据库集群之间，建立一个修改同步机制。</p>
+<p>先将修改请求生效在cache中，让外界查询显示正常，然后将这些sql修改放入到一个队列中存储起来，队列满或者每隔一段时间，合并为一个请求到数据库中更新数据库。 </p>
+<p><img src="/css/images/web_23.jpg" alt=""></p>
+<p>除了上述通过改变系统架构的方式提升写的性能外，MySQL本身也可以通过配置参数innodb_flush_log_at_trx_commit来调整写入磁盘的策略。如果机器成本允许，从硬件层面解决问题，可以选择老一点的RAID（Redundant Arrays of independent Disks，磁盘列阵）或者比较新的SSD（Solid State Drives，固态硬盘）。</p>
+<h5 id="5-NoSQL存储"><a href="#5-NoSQL存储" class="headerlink" title="5. NoSQL存储"></a>5. NoSQL存储</h5><p>不管数据库的读还是写，当流量再进一步上涨，终会达到“人力有穷时”的场景。继续加机器的成本比较高，并且不一定可以真正解决问题的时候。这个时候，部分核心数据，就可以考虑使用NoSQL的数据库。NoSQL存储，大部分都是采用key-value的方式，这里比较推荐使用上面介绍过Redis，Redis本身是一个内存cache，同时也可以当做一个存储来使用，让它直接将数据落地到磁盘。</p>
+<p>这样的话，我们就将数据库中某些被频繁读写的数据，分离出来，放在我们新搭建的Redis存储集群中，又进一步减轻原来MySQL数据库的压力，同时因为Redis本身是个内存级别的Cache，读写的性能都会大幅度提升。</p>
+<p><img src="/css/images/web_24.jpg" alt=""></p>
+<p>国内一线互联网公司，架构上采用的解决方案很多是类似于上述方案，不过，使用的cache服务却不一定是Redis，他们会有更丰富的其他选择，甚至根据自身业务特点开发出自己的NoSQL服务。</p>
+<h5 id="6-空节点查询问题"><a href="#6-空节点查询问题" class="headerlink" title="6. 空节点查询问题"></a>6. 空节点查询问题</h5><p>当我们搭建完前面所说的全部服务，认为Web系统已经很强的时候。我们还是那句话，新的问题还是会来的。空节点查询，是指那些数据库中根本不存在的数据请求。例如，我请求查询一个不存在人员信息，系统会从各级缓存逐级查找，最后查到到数据库本身，然后才得出查找不到的结论，返回给前端。因为各级cache对它无效，这个请求是非常消耗系统资源的，而如果大量的空节点查询，是可以冲击到系统服务的。</p>
+<p><img src="/css/images/web_25.jpg" alt=""></p>
+<p>在我曾经的工作经历中，曾深受其害。因此，为了维护Web系统的稳定性，设计适当的空节点过滤机制，非常有必要。</p>
+<p>我们当时采用的方式，就是设计一张简单的记录映射表。将存在的记录存储起来，放入到一台内存cache中，这样的话，如果还有空节点查询，则在缓存这一层就被阻挡了。 </p>
+<p><img src="/css/images/web_26.jpg" alt=""></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/04/28/web_3/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más nuevo</strong>
+            <div class="article-nav-title">
+                
+                    进击的分布式架构(III)[转]
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2017/04/05/web/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más viejo</strong>
+            <div class="article-nav-title">进击的分布式架构(I)[转]</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments"><div id="container"></div>
+
+	<div id="commentContainer"></div>
+
+
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最近发表</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/06/28/futrue_road/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/css/images/fuck_t_1.jpg)" alt="LinuxCon引发的思考" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/闲扯/">闲扯</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/闲扯/职业思考/">职业思考</a></p>
+                            <p class="item-title"><a href="/2017/06/28/futrue_road/" class="title">LinuxCon引发的思考</a></p>
+                            <p class="item-date"><time datetime="2017-06-28T13:54:05.000Z" itemprop="datePublished">2017-06-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/04/28/web_3/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/css/images/web_t_1.jpg)" alt="进击的分布式架构(III)[转]" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/架构/">架构</a></p>
+                            <p class="item-title"><a href="/2017/04/28/web_3/" class="title">进击的分布式架构(III)[转]</a></p>
+                            <p class="item-date"><time datetime="2017-04-27T16:14:02.000Z" itemprop="datePublished">2017-04-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/04/19/web_2/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/css/images/web_t_1.jpg)" alt="进击的分布式架构(II)[转]" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/架构/">架构</a></p>
+                            <p class="item-title"><a href="/2017/04/19/web_2/" class="title">进击的分布式架构(II)[转]</a></p>
+                            <p class="item-date"><time datetime="2017-04-18T16:14:02.000Z" itemprop="datePublished">2017-04-19</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/php/">php</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/php/swoole/">swoole</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/php/底层/">底层</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/php/静态技术/">静态技术</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/分布式部署/">分布式部署</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全/">安全</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/工具/git/">git</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/nosql/">nosql</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据技术/">数据技术</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据技术/爬虫/">爬虫</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/架构/">架构</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法学习/">算法学习</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/闲扯/">闲扯</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/闲扯/职业思考/">职业思考</a><span class="category-list-count">1</span></li></ul></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 - 2017 Zeco<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    <div id="container"></div>
+
+	<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+	<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+	<script>
+		var gitment = new Gitment({
+			owner: '25541570',
+			repo: 'charlesmade/charlesmade.github.io',
+			oauth: {
+				client_id: 'fee259b19d08426db9e3',
+				client_secret: 'c6476b23ed78d7e2c14c3bcd490c795764310223',
+			},
+		})
+		gitment.render('commentContainer')
+	</script>
+	
+
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
