@@ -74,7 +74,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -93,10 +93,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Posts',
+            POSTS: 'Entradas',
             PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
+            CATEGORIES: 'Categorias',
+            TAGS: 'Etiquetas',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -127,7 +127,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
     </div>
 
                 </td>
@@ -338,7 +338,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-quene" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-cache_1" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -346,7 +346,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2017/05/14/quene/">秒杀系统架构分析与实战[转]</a>
+            <a class="article-title" href="/2017/05/14/cache_1/">网站设计中的cache技术</a>
         </h1>
     
 
@@ -355,8 +355,201 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/05/14/quene/">
-            <time datetime="2017-05-13T16:14:02.000Z" itemprop="datePublished">2017-05-14</time>
+        <a href="/2017/05/14/cache_1/">
+            <time datetime="2017-05-14T13:37:14.000Z" itemprop="datePublished">2017-05-14</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/php/">php</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/php/静态技术/">静态技术</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tagcloud/cache/">cache</a>, <a class="tag-link" href="/tagcloud/php/">php</a>
+    </div>
+
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p><img src="/css/images/cache_1.jpg" alt=""><br>页面缓存的原理大体是在浏览器对资源的第一次请求之后，把资源中的一部分存储在计算机的临时文件空间，再次请求的时候，按照特定的策略加载缓存的资源，减少HTTP请求次数与传输数据量，以此提高浏览效率，<span style="color:blue">减少数据库和服务器的压力。</span></p>
+<p>在网站设计时要充分考虑缓存，合理的利用缓存和静态技术可以大大的提高网站的运行速度。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></p>
+            <p class="article-more-link">
+                <a href="/2017/05/14/cache_1/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-redis_vs_mem" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/04/05/redis_vs_mem/">redis vs memecached</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/04/05/redis_vs_mem/">
+            <time datetime="2017-04-05T11:13:39.000Z" itemprop="datePublished">2017-04-05</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/数据库/">数据库</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/数据库/nosql/">nosql</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tagcloud/memcached/">memcached</a>, <a class="tag-link" href="/tagcloud/nosql/">nosql</a>, <a class="tag-link" href="/tagcloud/redis/">redis</a>
+    </div>
+
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>Redis 是由来自意大利西西里岛的Salvatore Sanfilippo开发的一款开源的，使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库。</p>
+<p>这里不得不说一个勤奋的作者对一款开源软件是一件很重要的事，时至今日，与前辈memcached相比，Redis在大多数方面已经完成了全面的超越。</p>
+<p>下面摘录一段在stackoverflow上看到关于redis的文章。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></p>
+            <p class="article-more-link">
+                <a href="/2017/04/05/redis_vs_mem/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-quene" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/03/14/quene/">秒杀系统架构分析与实战[转]</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/03/14/quene/">
+            <time datetime="2017-03-13T16:14:02.000Z" itemprop="datePublished">2017-03-14</time>
         </a>
     </div>
 
@@ -392,7 +585,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 <hr>
 <h3 id="秒杀技术挑战"><a href="#秒杀技术挑战" class="headerlink" title="秒杀技术挑战"></a>秒杀技术挑战</h3><p>假设某网站秒杀活动只推出一件商品，预计会吸引1万人参加活动，也就说最大并发请求数是10000，秒杀系统需要面对的技术挑战有：</p></p>
             <p class="article-more-link">
-                <a href="/2017/05/14/quene/#more">Read More</a>
+                <a href="/2017/03/14/quene/#more">Read More</a>
             </p>
         
         </div>
@@ -441,7 +634,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-web_3" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-phpspider_1" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -449,7 +642,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2017/04/28/web_3/">进击的分布式架构(III)[转]</a>
+            <a class="article-title" href="/2017/01/17/phpspider_1/">使用phpspider开发的PHP爬虫</a>
         </h1>
     
 
@@ -458,8 +651,8 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/04/28/web_3/">
-            <time datetime="2017-04-27T16:14:02.000Z" itemprop="datePublished">2017-04-28</time>
+        <a href="/2017/01/17/phpspider_1/">
+            <time datetime="2017-01-17T14:55:00.000Z" itemprop="datePublished">2017-01-17</time>
         </a>
     </div>
 
@@ -467,13 +660,13 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/架构/">架构</a>
+        <a class="article-category-link" href="/categories/数据技术/">数据技术</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/数据技术/爬虫/">爬虫</a>
     </div>
 
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tagcloud/异地部署/">异地部署</a>, <a class="tag-link" href="/tagcloud/缓存机制/">缓存机制</a>, <a class="tag-link" href="/tagcloud/负载均衡/">负载均衡</a>
+        <a class="tag-link" href="/tagcloud/拿来的东西/">拿来的东西</a>, <a class="tag-link" href="/tagcloud/爬虫/">爬虫</a>
     </div>
 
 
@@ -484,201 +677,11 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><h3 id="异地部署（地理分布式）"><a href="#异地部署（地理分布式）" class="headerlink" title="异地部署（地理分布式）"></a>异地部署（地理分布式）</h3><p>完成了上述架构建设之后，我们的系统是否就已经足够强大了呢？答案当然是否定的哈，优化是无极限的。Web系统虽然表面上看，似乎比较强大了，但是给予用户的体验却不一定是最好的。因为东北的同学，访问深圳的一个网站服务，他还是会感到一些网络距离上的慢。这个时候，我们就需要做异地部署，让Web系统离用户更近。</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a></p>
+            <p><p><img src="/css/images/phpspider_1.gif" alt=""><br>开源库出处：<a href="https://github.com/owner888/phpspider" target="_blank" rel="external">Github</a></p>
+<hr>
+<h3 id="开发框架"><a href="#开发框架" class="headerlink" title="开发框架"></a>开发框架</h3><p>phpspider是一个爬虫开发框架。使用本框架，你不用了解爬虫的底层技术实现，爬虫被网站屏蔽、有些网站需要登录或验证码识别才能爬取等问题。简单几行PHP代码，就可以创建自己的爬虫，利用框架封装的多进程Worker类库，代码更简洁，执行效率更高速度更快。<br></p>
             <p class="article-more-link">
-                <a href="/2017/04/28/web_3/#more">Read More</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-web_2" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/04/19/web_2/">进击的分布式架构(II)[转]</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/04/19/web_2/">
-            <time datetime="2017-04-18T16:14:02.000Z" itemprop="datePublished">2017-04-19</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/架构/">架构</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tagcloud/异地部署/">异地部署</a>, <a class="tag-link" href="/tagcloud/缓存机制/">缓存机制</a>, <a class="tag-link" href="/tagcloud/负载均衡/">负载均衡</a>
-    </div>
-
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h3 id="Web系统的缓存机制的建立和优化"><a href="#Web系统的缓存机制的建立和优化" class="headerlink" title="Web系统的缓存机制的建立和优化"></a>Web系统的缓存机制的建立和优化</h3><p>刚刚我们讲完了Web系统的外部网络环境，现在我们开始关注我们Web系统自身的性能问题。我们的Web站点随着访问量的上升，会遇到很多的挑战，解决这些问题不仅仅是扩容机器这么简单，建立和使用合适的缓存机制才是根本。</p>
-<p>最开始，我们的Web系统架构可能是这样的，每个环节，都可能只有1台机器。 </p>
-<p><img src="/css/images/web_11.jpg" alt=""></p></p>
-            <p class="article-more-link">
-                <a href="/2017/04/19/web_2/#more">Read More</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-web" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/04/05/web/">进击的分布式架构(I)[转]</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/04/05/web/">
-            <time datetime="2017-04-04T16:14:02.000Z" itemprop="datePublished">2017-04-05</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/架构/">架构</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tagcloud/异地部署/">异地部署</a>, <a class="tag-link" href="/tagcloud/缓存机制/">缓存机制</a>, <a class="tag-link" href="/tagcloud/负载均衡/">负载均衡</a>
-    </div>
-
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p>当一个Web系统从日访问量10万逐步增长到1000万，甚至超过1亿的过程中，Web系统承受的压力会越来越大，在这个过程中，我们会遇到很多的问题。为了解决这些性能压力带来问题，我们需要在Web系统架构层面搭建多个层次的缓存机制。在不同的压力阶段，我们会遇到不同的问题，通过搭建不同的服务和架构来解决。</p>
-<h3 id="Web负载均衡"><a href="#Web负载均衡" class="headerlink" title="Web负载均衡"></a>Web负载均衡</h3><p>Web负载均衡（Load Balancing），简单地说就是给我们的服务器集群分配“工作任务”，而采用恰当的分配方式，对于保护处于后端的Web服务器来说，非常重要。<br></p>
-            <p class="article-more-link">
-                <a href="/2017/04/05/web/#more">Read More</a>
+                <a href="/2017/01/17/phpspider_1/#more">Read More</a>
             </p>
         
         </div>
@@ -728,7 +731,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
     <nav id="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Siguiente  &raquo;</a>
     </nav>
 </section>
             
@@ -763,38 +766,38 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/05/14/quene/" class="thumbnail">
+                            <a href="/2017/05/14/cache_1/" class="thumbnail">
     
     
-        <span style="background-image:url(/css/images/quene_t_1.jpg)" alt="秒杀系统架构分析与实战[转]" class="thumbnail-image"></span>
+        <span style="background-image:url(/css/images/cache_t_1.gif)" alt="网站设计中的cache技术" class="thumbnail-image"></span>
     
 </a>
 
                         </div>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/架构/">架构</a></p>
-                            <p class="item-title"><a href="/2017/05/14/quene/" class="title">秒杀系统架构分析与实战[转]</a></p>
-                            <p class="item-date"><time datetime="2017-05-13T16:14:02.000Z" itemprop="datePublished">2017-05-14</time></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/php/">php</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/php/静态技术/">静态技术</a></p>
+                            <p class="item-title"><a href="/2017/05/14/cache_1/" class="title">网站设计中的cache技术</a></p>
+                            <p class="item-date"><time datetime="2017-05-14T13:37:14.000Z" itemprop="datePublished">2017-05-14</time></p>
                         </div>
                     </li>
                 
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/04/28/web_3/" class="thumbnail">
+                            <a href="/2017/04/05/redis_vs_mem/" class="thumbnail">
     
     
-        <span style="background-image:url(/css/images/web_t_1.jpg)" alt="进击的分布式架构(III)[转]" class="thumbnail-image"></span>
+        <span style="background-image:url(/css/images/r_v_m_t_1.jpg)" alt="redis vs memecached" class="thumbnail-image"></span>
     
 </a>
 
                         </div>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/架构/">架构</a></p>
-                            <p class="item-title"><a href="/2017/04/28/web_3/" class="title">进击的分布式架构(III)[转]</a></p>
-                            <p class="item-date"><time datetime="2017-04-27T16:14:02.000Z" itemprop="datePublished">2017-04-28</time></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/数据库/">数据库</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/数据库/nosql/">nosql</a></p>
+                            <p class="item-title"><a href="/2017/04/05/redis_vs_mem/" class="title">redis vs memecached</a></p>
+                            <p class="item-date"><time datetime="2017-04-05T11:13:39.000Z" itemprop="datePublished">2017-04-05</time></p>
                         </div>
                     </li>
                 
@@ -816,7 +819,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">3</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">3</span></li></ul>
         </div>
     </div>
 

@@ -3,21 +3,21 @@
 <head>
     <meta charset="utf-8">
     
-    <title>进击的分布式架构(I)[转] | Zeco&#39;s blog</title>
+    <title>网站设计中的cache技术 | Zeco&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="当一个Web系统从日访问量10万逐步增长到1000万，甚至超过1亿的过程中，Web系统承受的压力会越来越大，在这个过程中，我们会遇到很多的问题。为了解决这些性能压力带来问题，我们需要在Web系统架构层面搭建多个层次的缓存机制。在不同的压力阶段，我们会遇到不同的问题，通过搭建不同的服务和架构来解决。 Web负载均衡Web负载均衡（Load Balancing），简单地说就是给我们的服务器集群分配“工">
-<meta name="keywords" content="负载均衡,缓存机制,异地部署">
+    <meta name="description" content="页面缓存的原理大体是在浏览器对资源的第一次请求之后，把资源中的一部分存储在计算机的临时文件空间，再次请求的时候，按照特定的策略加载缓存的资源，减少HTTP请求次数与传输数据量，以此提高浏览效率，减少数据库和服务器的压力。 在网站设计时要充分考虑缓存，合理的利用缓存和静态技术可以大大的提高网站的运行速度。">
+<meta name="keywords" content="php,cache">
 <meta property="og:type" content="article">
-<meta property="og:title" content="进击的分布式架构(I)[转]">
-<meta property="og:url" content="http://zeco.oschina.io/2017/04/05/web/index.html">
+<meta property="og:title" content="网站设计中的cache技术">
+<meta property="og:url" content="http://zeco.oschina.io/2017/05/14/cache_1/index.html">
 <meta property="og:site_name" content="Zeco&#39;s blog">
-<meta property="og:description" content="当一个Web系统从日访问量10万逐步增长到1000万，甚至超过1亿的过程中，Web系统承受的压力会越来越大，在这个过程中，我们会遇到很多的问题。为了解决这些性能压力带来问题，我们需要在Web系统架构层面搭建多个层次的缓存机制。在不同的压力阶段，我们会遇到不同的问题，通过搭建不同的服务和架构来解决。 Web负载均衡Web负载均衡（Load Balancing），简单地说就是给我们的服务器集群分配“工">
-<meta property="og:image" content="http://zeco.oschina.io/css/images/web_t_1.jpg">
-<meta property="og:updated_time" content="2017-07-08T15:17:31.542Z">
+<meta property="og:description" content="页面缓存的原理大体是在浏览器对资源的第一次请求之后，把资源中的一部分存储在计算机的临时文件空间，再次请求的时候，按照特定的策略加载缓存的资源，减少HTTP请求次数与传输数据量，以此提高浏览效率，减少数据库和服务器的压力。 在网站设计时要充分考虑缓存，合理的利用缓存和静态技术可以大大的提高网站的运行速度。">
+<meta property="og:image" content="http://zeco.oschina.io/css/images/cache_t_1.gif">
+<meta property="og:updated_time" content="2017-07-13T16:29:34.403Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="进击的分布式架构(I)[转]">
-<meta name="twitter:description" content="当一个Web系统从日访问量10万逐步增长到1000万，甚至超过1亿的过程中，Web系统承受的压力会越来越大，在这个过程中，我们会遇到很多的问题。为了解决这些性能压力带来问题，我们需要在Web系统架构层面搭建多个层次的缓存机制。在不同的压力阶段，我们会遇到不同的问题，通过搭建不同的服务和架构来解决。 Web负载均衡Web负载均衡（Load Balancing），简单地说就是给我们的服务器集群分配“工">
-<meta name="twitter:image" content="http://zeco.oschina.io/css/images/web_t_1.jpg">
+<meta name="twitter:title" content="网站设计中的cache技术">
+<meta name="twitter:description" content="页面缓存的原理大体是在浏览器对资源的第一次请求之后，把资源中的一部分存储在计算机的临时文件空间，再次请求的时候，按照特定的策略加载缓存的资源，减少HTTP请求次数与传输数据量，以此提高浏览效率，减少数据库和服务器的压力。 在网站设计时要充分考虑缓存，合理的利用缓存和静态技术可以大大的提高网站的运行速度。">
+<meta name="twitter:image" content="http://zeco.oschina.io/css/images/cache_t_1.gif">
     
 
     
@@ -81,7 +81,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -100,10 +100,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Posts',
+            POSTS: 'Entradas',
             PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
+            CATEGORIES: 'Categorias',
+            TAGS: 'Etiquetas',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -134,7 +134,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
     </div>
 
                 </td>
@@ -250,7 +250,7 @@
 </aside>
 
             
-            <section id="main"><article id="post-web" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-cache_1" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -258,7 +258,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            进击的分布式架构(I)[转]
+            网站设计中的cache技术
         </h1>
     
 
@@ -267,8 +267,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/04/05/web/">
-            <time datetime="2017-04-04T16:14:02.000Z" itemprop="datePublished">2017-04-05</time>
+        <a href="/2017/05/14/cache_1/">
+            <time datetime="2017-05-14T13:37:14.000Z" itemprop="datePublished">2017-05-14</time>
         </a>
     </div>
 
@@ -276,13 +276,13 @@
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/架构/">架构</a>
+        <a class="article-category-link" href="/categories/php/">php</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/php/静态技术/">静态技术</a>
     </div>
 
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tagcloud/异地部署/">异地部署</a>, <a class="tag-link" href="/tagcloud/缓存机制/">缓存机制</a>, <a class="tag-link" href="/tagcloud/负载均衡/">负载均衡</a>
+        <a class="tag-link" href="/tagcloud/cache/">cache</a>, <a class="tag-link" href="/tagcloud/php/">php</a>
     </div>
 
 
@@ -294,41 +294,26 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>当一个Web系统从日访问量10万逐步增长到1000万，甚至超过1亿的过程中，Web系统承受的压力会越来越大，在这个过程中，我们会遇到很多的问题。为了解决这些性能压力带来问题，我们需要在Web系统架构层面搭建多个层次的缓存机制。在不同的压力阶段，我们会遇到不同的问题，通过搭建不同的服务和架构来解决。</p>
-<h3 id="Web负载均衡"><a href="#Web负载均衡" class="headerlink" title="Web负载均衡"></a>Web负载均衡</h3><p>Web负载均衡（Load Balancing），简单地说就是给我们的服务器集群分配“工作任务”，而采用恰当的分配方式，对于保护处于后端的Web服务器来说，非常重要。<br><a id="more"></a></p>
-<p><img src="/css/images/web_1.jpg" alt=""></p>
-<p>负载均衡的策略有很多，我们从简单的讲起哈。</p>
-<h4 id="1-HTTP重定向"><a href="#1-HTTP重定向" class="headerlink" title="1. HTTP重定向"></a>1. HTTP重定向</h4><p>当用户发来请求的时候，Web服务器通过修改HTTP响应头中的Location标记来返回一个新的url，然后浏览器再继续请求这个新url，实际上就是页面重定向。通过重定向，来达到“负载均衡”的目标。例如，我们在下载PHP源码包的时候，点击下载链接时，为了解决不同国家和地域下载速度的问题，它会返回一个离我们近的下载地址。重定向的HTTP返回码是302，如下图：</p>
-<p><img src="/css/images/web_2.jpg" alt=""></p>
-<p>如果使用PHP代码来实现这个功能，方式如下：</p>
-<p><img src="/css/images/web_3.jpg" alt=""></p>
-<p>这个重定向非常容易实现，并且可以自定义各种策略。但是，它在大规模访问量下，性能不佳。而且，给用户的体验也不好，实际请求发生重定向，增加了网络延时。</p>
-<h4 id="2-反向代理负载均衡"><a href="#2-反向代理负载均衡" class="headerlink" title="2. 反向代理负载均衡"></a>2. 反向代理负载均衡</h4><p>反向代理服务的核心工作主要是转发HTTP请求，扮演了浏览器端和后台Web服务器中转的角色。因为它工作在HTTP层（应用层），也就是网络七层结构中的第七层，因此也被称为“七层负载均衡”。可以做反向代理的软件很多，比较常见的一种是Nginx。</p>
-<p><img src="/css/images/web_4.jpg" alt=""></p>
-<p>Nginx是一种非常灵活的反向代理软件，可以自由定制化转发策略，分配服务器流量的权重等。反向代理中，常见的一个问题，就是Web服务器存储的session数据，因为一般负载均衡的策略都是随机分配请求的。同一个登录用户的请求，无法保证一定分配到相同的Web机器上，会导致无法找到session的问题。</p>
-<p>解决方案主要有两种：</p>
-<ol>
-<li>配置反向代理的转发规则，让同一个用户的请求一定落到同一台机器上（通过分析cookie），复杂的转发规则将会消耗更多的CPU，也增加了代理服务器的负担。</li>
-<li>将session这类的信息，专门用某个独立服务来存储，例如redis/memchache，这个方案是比较推荐的。</li>
-</ol>
-<p>反向代理服务，也是可以开启缓存的，如果开启了，会增加反向代理的负担，需要谨慎使用。这种负载均衡策略实现和部署非常简单，而且性能表现也比较好。但是，它有“单点故障”的问题，如果挂了，会带来很多的麻烦。而且，到了后期Web服务器继续增加，它本身可能成为系统的瓶颈。</p>
-<h4 id="3-IP负载均衡"><a href="#3-IP负载均衡" class="headerlink" title="3. IP负载均衡"></a>3. IP负载均衡</h4><p>IP负载均衡服务是工作在网络层（修改IP）和传输层（修改端口，第四层），比起工作在应用层（第七层）性能要高出非常多。原理是，他是对IP层的数据包的IP地址和端口信息进行修改，达到负载均衡的目的。这种方式，也被称为“四层负载均衡”。常见的负载均衡方式，是LVS（Linux Virtual Server，Linux虚拟服务），通过IPVS（IP Virtual Server，IP虚拟服务）来实现。</p>
-<p><img src="/css/images/web_5.jpg" alt=""></p>
-<p>在负载均衡服务器收到客户端的IP包的时候，会修改IP包的目标IP地址或端口，然后原封不动地投递到内部网络中，数据包会流入到实际Web服务器。实际服务器处理完成后，又会将数据包投递回给负载均衡服务器，它再修改目标IP地址为用户IP地址，最终回到客户端。 </p>
-<p><img src="/css/images/web_6.jpg" alt=""></p>
-<p>上述的方式叫LVS-NAT，除此之外，还有LVS-RD（直接路由），LVS-TUN（IP隧道），三者之间都属于LVS的方式，但是有一定的区别，篇幅问题，不赘叙。</p>
-<p>IP负载均衡的性能要高出Nginx的反向代理很多，它只处理到传输层为止的数据包，并不做进一步的组包，然后直接转发给实际服务器。不过，它的配置和搭建比较复杂。</p>
-<h4 id="4-DNS负载均衡"><a href="#4-DNS负载均衡" class="headerlink" title="4. DNS负载均衡"></a>4. DNS负载均衡</h4><p>DNS（Domain Name System）负责域名解析的服务，域名url实际上是服务器的别名，实际映射是一个IP地址，解析过程，就是DNS完成域名到IP的映射。而一个域名是可以配置成对应多个IP的。因此，DNS也就可以作为负载均衡服务。</p>
-<p><img src="/css/images/web_7.jpg" alt=""></p>
-<p>这种负载均衡策略，配置简单，性能极佳。但是，不能自由定义规则，而且，变更被映射的IP或者机器故障时很麻烦，还存在DNS生效延迟的问题。 </p>
-<h4 id="5-DNS-GSLB负载均衡"><a href="#5-DNS-GSLB负载均衡" class="headerlink" title="5. DNS/GSLB负载均衡"></a>5. DNS/GSLB负载均衡</h4><p>我们常用的CDN（Content Delivery Network，内容分发网络）实现方式，其实就是在同一个域名映射为多IP的基础上更进一步，通过GSLB（Global Server Load Balance，全局负载均衡）按照指定规则映射域名的IP。一般情况下都是按照地理位置，将离用户近的IP返回给用户，减少网络传输中的路由节点之间的跳跃消耗。 </p>
-<p><img src="/css/images/web_8.jpg" alt=""></p>
-<p>图中的“向上寻找”，实际过程是LDNS（Local DNS）先向根域名服务（Root Name Server）获取到顶级根的Name Server（例如.com的），然后得到指定域名的授权DNS，然后再获得实际服务器IP。</p>
-<p><img src="/css/images/web_9.jpg" alt=""></p>
-<p>CDN在Web系统中，一般情况下是用来解决大小较大的静态资源（html/Js/Css/图片等）的加载问题，让这些比较依赖网络下载的内容，尽可能离用户更近，提升用户体验。</p>
-<p>例如，我访问了一张imgcache.gtimg.cn上的图片（腾讯的自建CDN，不使用qq.com域名的原因是防止http请求的时候，带上了多余的cookie信息），我获得的IP是183.60.217.90。 </p>
-<p><img src="/css/images/web_10.jpg" alt=""></p>
-<p>这种方式，和前面的DNS负载均衡一样，不仅性能极佳，而且支持配置多种策略。但是，搭建和维护成本非常高。互联网一线公司，会自建CDN服务，中小型公司一般使用第三方提供的CDN。</p>
+            <p><img src="/css/images/cache_1.jpg" alt=""><br>页面缓存的原理大体是在浏览器对资源的第一次请求之后，把资源中的一部分存储在计算机的临时文件空间，再次请求的时候，按照特定的策略加载缓存的资源，减少HTTP请求次数与传输数据量，以此提高浏览效率，<span style="color:blue">减少数据库和服务器的压力。</span></p>
+<p>在网站设计时要充分考虑缓存，合理的利用缓存和静态技术可以大大的提高网站的运行速度。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h3 id="页面静态化"><a href="#页面静态化" class="headerlink" title="页面静态化"></a>页面静态化</h3><p>将动态的页面生成静态的页面保存下来，但用户访问特定的页面时，直接将缓存好的静态页面返回给客户，省去了去数据库读取数据的过程，大大提高了网站的运行效率，降低了数据库的压力。</p>
+<blockquote>
+<p>这里牺牲了网站数据的及时性，一般静态化缓存会和其他技术结合起来使用，而不是单独使用。</p>
+</blockquote>
+<p>php里一般使用ob方法来实现页面静态缓存<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ob_start();</div><div class="line">$content = ob_get_contents();</div><div class="line">ob_end_clean();</div></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="页面部分静态化"><a href="#页面部分静态化" class="headerlink" title="页面部分静态化"></a>页面部分静态化</h3><p>使用模块化设计，将不需要数据动态化的部分进行静态化，使用ob函数输出，也可以使用其他技术，如ESI。</p>
+<p>一般即使动态的数据，如果数据变化不是十分频繁（我们通过设计固定时间来更新我们的数据），也可以通过一些标识（如：id）来保存静态化数据的页面，然后通过（id）来找到静态页面位置，当该页面被访问时，直接返回给用户。</p>
+<blockquote>
+<p>这里需要设计人员分割是否需要动态数据显示</p>
+</blockquote>
+<hr>
+<h3 id="memcached（redis）缓存"><a href="#memcached（redis）缓存" class="headerlink" title="memcached（redis）缓存"></a>memcached（redis）缓存</h3><p>内存缓存，一般使用memcached或者redis来实现，将数据以key&amp;value的方式保存在内存中，因为数据缓存在内存中，无需再去数据库里读取，这样不仅大大减轻了数据库的压力，也一样提升网站的处理速度。</p>
+<blockquote>
+<p>这里要注意memcached和redis的选用，如果只是单纯的key&amp;value的数据读取，那么memecached是不错的选择，如果对数据安全有要求，又需要比较复杂的数据存储形式，那么redis可能会更加适合你。具体详见<a href="#">Memcached和Redis</a></p>
+</blockquote>
+<hr>
+<h3 id="关于缓存"><a href="#关于缓存" class="headerlink" title="关于缓存"></a>关于缓存</h3><p>缓存有时候是让人讨厌的东西，但对于网页设计确实不得不去考虑的东西，这里简单的列举了三个比较常见的缓存技术，当然还有许多其他的缓存技术，留待以后慢慢的整理。</p>
 
         
         </div>
@@ -376,19 +361,19 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         
 <nav id="article-nav">
     
-        <a href="/2017/04/19/web_2/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Newer</strong>
+        <a href="/2017/06/28/futrue_road/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más nuevo</strong>
             <div class="article-nav-title">
                 
-                    进击的分布式架构(II)[转]
+                    LinuxCon引发的思考
                 
             </div>
         </a>
     
     
-        <a href="/2017/03/02/cache_1/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">网站设计中的cache技术</div>
+        <a href="/2017/04/05/redis_vs_mem/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más viejo</strong>
+            <div class="article-nav-title">redis vs memecached</div>
         </a>
     
 </nav>
@@ -441,38 +426,38 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/05/14/quene/" class="thumbnail">
+                            <a href="/2017/05/14/cache_1/" class="thumbnail">
     
     
-        <span style="background-image:url(/css/images/quene_t_1.jpg)" alt="秒杀系统架构分析与实战[转]" class="thumbnail-image"></span>
+        <span style="background-image:url(/css/images/cache_t_1.gif)" alt="网站设计中的cache技术" class="thumbnail-image"></span>
     
 </a>
 
                         </div>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/架构/">架构</a></p>
-                            <p class="item-title"><a href="/2017/05/14/quene/" class="title">秒杀系统架构分析与实战[转]</a></p>
-                            <p class="item-date"><time datetime="2017-05-13T16:14:02.000Z" itemprop="datePublished">2017-05-14</time></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/php/">php</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/php/静态技术/">静态技术</a></p>
+                            <p class="item-title"><a href="/2017/05/14/cache_1/" class="title">网站设计中的cache技术</a></p>
+                            <p class="item-date"><time datetime="2017-05-14T13:37:14.000Z" itemprop="datePublished">2017-05-14</time></p>
                         </div>
                     </li>
                 
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/04/28/web_3/" class="thumbnail">
+                            <a href="/2017/04/05/redis_vs_mem/" class="thumbnail">
     
     
-        <span style="background-image:url(/css/images/web_t_1.jpg)" alt="进击的分布式架构(III)[转]" class="thumbnail-image"></span>
+        <span style="background-image:url(/css/images/r_v_m_t_1.jpg)" alt="redis vs memecached" class="thumbnail-image"></span>
     
 </a>
 
                         </div>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/架构/">架构</a></p>
-                            <p class="item-title"><a href="/2017/04/28/web_3/" class="title">进击的分布式架构(III)[转]</a></p>
-                            <p class="item-date"><time datetime="2017-04-27T16:14:02.000Z" itemprop="datePublished">2017-04-28</time></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/数据库/">数据库</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/数据库/nosql/">nosql</a></p>
+                            <p class="item-title"><a href="/2017/04/05/redis_vs_mem/" class="title">redis vs memecached</a></p>
+                            <p class="item-date"><time datetime="2017-04-05T11:13:39.000Z" itemprop="datePublished">2017-04-05</time></p>
                         </div>
                     </li>
                 
@@ -494,7 +479,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">3</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">3</span></li></ul>
         </div>
     </div>
 
